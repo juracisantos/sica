@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        Cadastro de Usuário (Novo)
+    </ui:define>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="default.css" />
+        <h2>Cadastrar Novo Usuário</h2>
+        <h:form prependId="false">
+            <f:validateBean>                 
+
+                <h:panelGrid columns="2">
+                    <p:commandButton action="#{usuarioControlador.salvar()}" value="Salvar" ajax="false">
+                    </p:commandButton>
+
+                    <p:commandButton immediate="true" action="#{usuarioControlador.listar()}" value="Cancelar" ajax="false">
+                    </p:commandButton>
+                </h:panelGrid>
+
+                <h:messages/>
+
+                <h:panelGrid columns="2">
+                    <h:outputText value="Nome"/>
+                    <p:inputText value="#{usuarioControlador.selectedObject.nome}" size="50" />
+
+                    <h:outputText value="E-Mail"/>
+                    <p:inputText value="#{usuarioControlador.selectedObject.email}" id="txtEmail" size="50"/>
+
+                    <h:outputText value="Senha"/>                    
+                    <p:password value="#{usuarioControlador.selectedObject.senha}" feedback="true"
+                                 size="50" id="txtPassword"
+                                promptLabel="Analise da senha" weakLabel="Não segura"
+                                goodLabel="Boa segurança" strongLabel="Ótima segurança" />
+
+                    <h:outputText value="Confirma senha"/>
+                    <p:password value="#{usuarioControlador.selectedObject.confSenha}" size="50"
+                                feedback="false" />
+
+                    <h:outputText value="Grupo"/>
+                    <h:selectOneMenu id="grupoId" value="#{usuarioControlador.selectedObject.grupo}" title="Titulo Grupo" >
+                        <f:selectItems value="#{grupoControlador.gruposSelectOne}"/>
+                    </h:selectOneMenu>  
+                </h:panelGrid>
+            </f:validateBean>
+        </h:form>
+    </ui:define>
+</ui:composition>

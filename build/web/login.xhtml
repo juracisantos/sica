@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+    <h:head>        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Logar</title>
+    </h:head>
+
+    <h:body>
+        <h:outputStylesheet library="css" name="login.css" />        
+        <h:form>
+            <f:validateBean>
+                <div class="login" id="login">
+                    <p:panel header="Login" footer="Acesso ao sistema" styleClass="pnlLogin">
+                        <table>
+                            <tr>
+                                <td><img alt="Logo" src="/se/resources/images/login.png"></img></td>
+                                <td><h2>Nome do programa</h2></td>
+                            </tr>
+                        </table>
+                        
+                        <div class="logintable">
+                            <table>
+                                <tr>
+                                    <td colspan="2"><h:messages styleClass="error"/></td>
+                                </tr>
+                                <tr>
+                                    <td>E-Mail</td>
+                                    <td><p:inputText value="#{adminLoginControl.email}" size="20"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Senha</td>
+                                    <td><p:password feedback="false" value="#{adminLoginControl.senha}" size="20" /></td>
+                                </tr>
+                                <tr>                                    
+                                    <td colspan="2" align="right"><h:commandButton action="#{adminLoginControl.doLogin}"
+                                                                                   value="Acessar" /> </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </p:panel>
+                </div>
+            </f:validateBean>
+        </h:form>
+    </h:body>
+
+</html>
