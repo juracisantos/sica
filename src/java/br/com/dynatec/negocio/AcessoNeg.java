@@ -64,6 +64,7 @@ public class AcessoNeg {
     }
 
     public Acesso salvar(Acesso e) throws Exception {
+        e.setLiberado(Boolean.TRUE);        
         return acessoDao.salvar(e);
     }
     

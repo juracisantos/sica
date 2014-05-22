@@ -27,6 +27,7 @@ public abstract class PersistenciaJpa implements Serializable {
             return (T) bean;
         } catch (Exception e) {
             this.em.getTransaction().rollback();
+            e.printStackTrace();
             throw new Exception(e.getMessage());
         }
     }        

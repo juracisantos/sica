@@ -17,8 +17,9 @@
     </h:head>
 
     <h:body>        
-        <h:outputStylesheet library="css" name="_default.css"/> 
+        <h:outputStylesheet library="css" name="default.css"/>
         <h:outputScript library="js" name="maskMoney.js"/>
+        <h:outputScript library="js" name="jquery.mask.min.js"/>        
         <h:outputScript library="js" name="funcoes.js"/>
 
         <p:layout fullPage="true" >                
@@ -33,7 +34,7 @@
                         <p:submenu label="Cadastros">  
                             <p:menuitem value="Grupos" action="#{grupoControlador.listar}" ajax="false"/>
                             <p:menuitem value="Usuarios" action="#{usuarioControlador.listar}" ajax="false"/> 
-                            <p:menuitem value="Mensalistas" action="#{usuarioControlador.listar}" ajax="false"/>
+                            <p:menuitem value="Mensalistas" action="#{pessoaControlador.listar}" ajax="false"/>
                             <p:menuitem value="Tabelas" action="#{tabelaControlador.listar}" ajax="false"/>
                             <p:menuitem value="Acessos" action="#{acessoControlador.novo()}" ajax="false"/>
                         </p:submenu>

@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author juraci
  */
 @Entity
-@Table(name = "endereco")
+@Table(name = "enderecos")
 public class Endereco implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,9 +50,6 @@ public class Endereco implements Serializable {
     @Size(max = 255)
     @Column(name = "municipio")
     private String municipio;
-    @Size(max = 255)
-    @Column(name = "pais")
-    private String pais;
 
     public Endereco() {
     }
@@ -103,14 +100,6 @@ public class Endereco implements Serializable {
 
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
     }
 
     public String getSetor() {

@@ -67,10 +67,9 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
             return "/index.jsf";
         } catch (Exception ex) {
             UtilFaces.addErrorMessage(ex.getLocalizedMessage());
+            ex.printStackTrace();
             return null;
         }
-
-
     }
 
     public Usuario getUsuario() {

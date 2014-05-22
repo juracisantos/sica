@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author jura
  */
 @Entity
-@Table(name = "acesso")
+@Table(name = "acessos")
 public class Acesso implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -79,6 +79,9 @@ public class Acesso implements Serializable {
 
     @Column
     private Boolean ativo;
+
+    @Column
+    private Boolean liberado;
 
     @JoinColumn(referencedColumnName = "id", name = "usuario_registrou_entrada_id")
     @ManyToOne(optional = false)
@@ -218,6 +221,14 @@ public class Acesso implements Serializable {
 
     public void setValorAReceber(Double valorAReceber) {
         this.valorAReceber = valorAReceber;
+    }
+
+    public Boolean isLiberado() {
+        return liberado;
+    }
+
+    public void setLiberado(Boolean liberado) {
+        this.liberado = liberado;
     }
 
     @Override

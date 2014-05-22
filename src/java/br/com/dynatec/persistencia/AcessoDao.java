@@ -22,7 +22,7 @@ public class AcessoDao extends PersistenciaJpa {
         return find(Acesso.class, idAcesso);
     }
 
-    public Acesso salvar(Acesso e) throws Exception {
+    public Acesso salvar(Acesso e) throws Exception {        
         return save(Acesso.class, e);
     }
 

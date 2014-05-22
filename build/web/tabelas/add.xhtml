@@ -27,7 +27,7 @@
                     <p:inputText value="#{tabelaControlador.selectedObject.nome}" size="50" />
 
                     <h:outputText value="Valor"/>
-                    <p:inputText value="#{tabelaControlador.selectedObject.valor}" id="txtValor" size="50">
+                    <p:inputText value="#{tabelaControlador.selectedObject.valor}" styleClass="monetario" id="txtValor" size="50">
                         <f:convertNumber pattern="#,###,##0.00"/>
                     </p:inputText>                      
                 </h:panelGrid>
@@ -70,7 +70,7 @@
                             <f:facet name="header">
                                 Valor
                             </f:facet>
-                            <p:inputText value="#{item.valor}">
+                            <p:inputText value="#{item.valor}" styleClass="monetario">
                                 <f:convertNumber pattern="#,###,##0.00"/>
                             </p:inputText>
                         </p:column>

@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author jura
  */
 @Entity
-@Table(name = "regra")
+@Table(name = "regras")
 public class Regra implements Serializable {
 
     private static final long serialVersionUID = 2L;

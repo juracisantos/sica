@@ -6,7 +6,6 @@ package br.com.dynatec.entidade;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -16,7 +15,7 @@ import javax.validation.constraints.Size;
  * @author juraci
  */
 @Entity
-@Table(name = "pessoa")
+@Table(name = "pessoas")
 public class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,14 +43,29 @@ public class Pessoa implements Serializable {
     private Date createdAt;
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;   
-    
+    private Date updatedAt;
+   
+    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn( nullable = true, updatable = false)
+    private Endereco endereco;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "PESSOA_VEICULO", joinColumns = {
+        @JoinColumn(name = "PESSOA_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "VEICULO_ID", referencedColumnName = "ID")})
+    private List<Veiculo> veiculos;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "PESSOA_TELEFONE_EMAIL", joinColumns = {
         @JoinColumn(name = "PESSOA_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "TELEFONEEMAIL_ID", referencedColumnName = "ID")})
-    private List<TelefoneEmail> pessoaTelefonesEmails = new LinkedList<TelefoneEmail>();
+    private List<TelefoneEmail> pessoaTelefonesEmails;
 
+    public boolean isPossuiTelefone() {
+        boolean retorno = !this.pessoaTelefonesEmails.isEmpty();
+        return retorno;
+    }
+    
     public Pessoa() {
     }
 
@@ -126,8 +140,22 @@ public class Pessoa implements Serializable {
     public void setRg(String rg) {
         this.rg = rg;
     }
-    
-    
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public List<Veiculo> getVeiculos() {
+        return veiculos;
+    }
+
+    public void setVeiculos(List<Veiculo> veiculos) {
+        this.veiculos = veiculos;
+    }
 
     @Override
     public int hashCode() {

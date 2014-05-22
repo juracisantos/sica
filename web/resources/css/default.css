@@ -1,4 +1,4 @@
-body {
+/*body {
     background-color:#ffffff;
     font-size: 12px;
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
@@ -19,7 +19,7 @@ h1 {
 
 h2 {
     font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
-/*    border-bottom: 1px solid #A6C9E2;*/
+    border-bottom: 1px solid #A6C9E2;
     font-size:  16px;
     font-weight: bold;
     margin: 0px;
@@ -57,7 +57,7 @@ a:link:hover, a:visited:hover  {
     text-decoration : underline;
 }
 
-/*.ui-layout-unit-top .ui-layout-bd { border: 0; }*/
+.ui-layout-unit-top .ui-layout-bd { border: 0; }
 
 .pnlCenter {
     width: 700px;
@@ -84,5 +84,14 @@ a:link:hover, a:visited:hover  {
     margin: 0px;
     padding: 0px;
     color: #6D6D6D;
+}*/
+
+.monetario {
+  text-align: left;  
 }
 
+.data {}
+
+.inputGrid {
+    width: 100%;
+}

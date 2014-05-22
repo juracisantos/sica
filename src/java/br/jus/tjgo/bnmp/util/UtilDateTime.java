@@ -66,8 +66,8 @@ public class UtilDateTime {
     
     public static String minToHora(Integer minutos) {
         int inteira = minutos / 60;            
-        int resto = minutos % 60;  
-          
+        int resto = minutos % 60;
+        
         return String.valueOf(inteira) + ":" + String.valueOf(resto);  
     }
 }
