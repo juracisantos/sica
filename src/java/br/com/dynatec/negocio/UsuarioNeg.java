@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UsuarioNeg {
 
-    private final UsuarioDao usuarioDao;
+    private final UsuarioDao usuarioDao;        
     
     public UsuarioNeg() {
         this.usuarioDao = new UsuarioDao();
@@ -26,8 +26,8 @@ public class UsuarioNeg {
         return usuarioDao.salvar(usuario);
     }
     
-    public Usuario findByEmail(String email) {
-        return this.usuarioDao.findByEmail(email);
+    public Usuario findByUserName(String username) {
+        return this.usuarioDao.findByUserName(username);
     }
     
     public Usuario Criptografa(Usuario usuario) throws Exception {

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="default.css" />        
+        <h:form id="frmConfiguracaoLista" prependId="false">
+            <h:messages/>
+            <h2>Configurações</h2>
+
+
+                    <p:panel id="pnlConfiguracao">
+                        <p:commandButton action="#{configuracaoControlador.novo}" immediate="false"
+                                         ajax="false" value="Nova">
+                        </p:commandButton>
+                        <p/>
+
+                    </p:panel>
+                      
+                    <p:panel id="pnlContainer">
+                        <p:dataTable var="item" value="#{configuracaoControlador.configuracaos}" id="tblConfiguracaosCadastrados"
+                                     emptyMessage="Nenhuma configuração cadastrada.">
+                                     
+                            <p:column style="width: 30px;">
+                                <f:facet name="header">
+                                    Ações
+                                </f:facet>
+                                <h:commandButton action="#{configuracaoControlador.edit()}" immediate="true"
+                                                 image="#{pageContext.request.contextPath}/resources/images/edit.gif"
+                                                 title="Editar">
+                                    <f:setPropertyActionListener target="#{configuracaoControlador.selectedObject}" value="#{item}"/>
+                                </h:commandButton>                                
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">Nome da Configuracao</f:facet>
+                                #{item.descricao}
+                            </p:column>                           
+
+                        </p:dataTable>
+                    </p:panel>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

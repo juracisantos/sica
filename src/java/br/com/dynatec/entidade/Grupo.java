@@ -38,7 +38,7 @@ public class Grupo implements Serializable {
 
     @Column(nullable = false, length = 50, unique = true)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 150)
     protected String nome;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "grupo")

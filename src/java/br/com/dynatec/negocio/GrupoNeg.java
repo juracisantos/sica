@@ -14,10 +14,14 @@ import java.util.List;
  */
 public class GrupoNeg {
    
-    private final GrupoDao grupoDao;
+    private final GrupoDao grupoDao;   
     
     public GrupoNeg() {
         this.grupoDao = new GrupoDao();
+    }
+    
+    public Grupo findByNome(String nome) {
+        return this.grupoDao.findByNome(nome);
     }
     
     public List<Grupo> findAll() {

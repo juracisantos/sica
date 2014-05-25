@@ -32,13 +32,14 @@
                 <h:form>
                     <p:menu style="width: 95%; height: 100%;">
                         <p:submenu label="Cadastros">  
+                            <p:menuitem value="Configurações" action="#{configuracaoControlador.listar}" ajax="false"/>
                             <p:menuitem value="Grupos" action="#{grupoControlador.listar}" ajax="false"/>
                             <p:menuitem value="Usuarios" action="#{usuarioControlador.listar}" ajax="false"/> 
                             <p:menuitem value="Mensalistas" action="#{pessoaControlador.listar}" ajax="false"/>
-                            <p:menuitem value="Tabelas" action="#{tabelaControlador.listar}" ajax="false"/>
-                            <p:menuitem value="Acessos" action="#{acessoControlador.novo()}" ajax="false"/>
+                            <p:menuitem value="Tabelas" action="#{tabelaControlador.listar}" ajax="false"/>                            
                         </p:submenu>
                         <p:submenu label="Caixa">
+                            <p:menuitem value="Acessos" action="#{acessoControlador.novo()}" ajax="false"/>
                             <p:menuitem value="Depósito de caixa" action="#{grupoControlador.listar}" ajax="false"/> 
                             <p:menuitem value="Retirada de caixa" action="#{grupoControlador.listar}" ajax="false"/>
                         </p:submenu>

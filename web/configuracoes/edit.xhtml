@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        Cadastro de Configurações (Editar)
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>Editar Configuração</h2>
+        <h:form prependId="false">
+            <f:validateBean> 
+                <p:messages id="msgs"  autoUpdate="true"/> 
+
+                <h:panelGrid columns="2">
+                    <p:commandButton action="#{configuracaoControlador.salvar()}" value="Salvar" ajax="false"/>                    
+
+                    <p:commandButton immediate="true" action="#{configuracaoControlador.listar()}" value="Cancelar" ajax="false"/>                    
+                </h:panelGrid>                                  
+
+                <h:panelGrid columns="2">
+                    <h:outputText value="Descrição da Configuração:"/>
+                    <p:inputText value="#{configuracaoControlador.selectedObject.descricao}" size="50"
+                                 required="true" requiredMessage="O campo Descrição da Configuração deve ser preenchido.">
+                    </p:inputText> 
+
+                    <h:outputText value="Tolerância em minutos para sair:"/>
+                    <p:spinner id="diaVencimento"  value="#{configuracaoControlador.selectedObject.tolerancia}" min="0" max="60" size="5" />
+                </h:panelGrid>
+            </f:validateBean>
+        </h:form>
+    </ui:define>
+</ui:composition>

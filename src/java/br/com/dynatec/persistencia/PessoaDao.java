@@ -26,6 +26,10 @@ public class PessoaDao extends PersistenciaJpa {
     public Pessoa findByNome(String nome) {
         return find(Pessoa.class, "select e from Pessoa e where e.nome ilike ?1", "%" + nome + "%");
     }
+    
+    public Pessoa findByEmail(String email) {
+        return find(Pessoa.class, "select e from Pessoa e where e.email = ?1", email);
+    }
 
     public Pessoa salvar(Pessoa e) throws Exception {
         return save(Pessoa.class, e);

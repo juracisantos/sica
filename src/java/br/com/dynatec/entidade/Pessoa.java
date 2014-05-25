@@ -8,7 +8,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -21,14 +24,24 @@ public class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
     @Basic(optional = false)
+    @NotNull
+    @Column(name = "id")
     private Integer id;
+
     @Size(max = 255)
     @Column(name = "nome")
+    @NotEmpty(message = "O Nome não pode ser vazio.")
     private String nome;
+
+    @NotNull
+    @NotEmpty(message = "O e-mail não pode ser vazio.")
+    @Email(message = "O e-mail informado não é válido.")
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Size(max = 255)
-    @Column(name = "cpf")
+    @Column(name = "cpf", unique = true)
     private String cpf;
     @Size(max = 255)
     @Column(name = "rg")
@@ -44,9 +57,12 @@ public class Pessoa implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-   
-    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn( nullable = true, updatable = false)
+
+    @Temporal(TemporalType.DATE)
+    private Date pagoAte;
+
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Endereco endereco;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -65,12 +81,24 @@ public class Pessoa implements Serializable {
         boolean retorno = !this.pessoaTelefonesEmails.isEmpty();
         return retorno;
     }
-    
+
     public Pessoa() {
     }
 
     public Boolean getAtivo() {
         return ativo;
+    }
+
+    public Boolean isAtivo() {
+        return ativo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setAtivo(Boolean ativo) {
@@ -155,6 +183,14 @@ public class Pessoa implements Serializable {
 
     public void setVeiculos(List<Veiculo> veiculos) {
         this.veiculos = veiculos;
+    }
+
+    public Date getPagoAte() {
+        return pagoAte;
+    }
+
+    public void setPagoAte(Date pagoAte) {
+        this.pagoAte = pagoAte;
     }
 
     @Override

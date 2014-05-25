@@ -9,6 +9,10 @@ public class GrupoDao extends PersistenciaJpa {
         return findAll(Grupo.class, "select e from Grupo e");
     }
     
+    public Grupo findByNome(String nome) {
+        return find(Grupo.class, "select e from Grupo e where e.nome = ?1", nome);
+    }
+    
     public Grupo salvar(Grupo grupo) throws Exception {
         return save(Grupo.class, grupo);
     }

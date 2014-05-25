@@ -23,8 +23,8 @@ public class UsuarioDao extends PersistenciaJpa {
         return find(Usuario.class, idUsuario);
     }
 
-    public Usuario findByEmail(String email) {
-        return find(Usuario.class, "select e from Usuario e where e.email = ?1", email);
+    public Usuario findByUserName(String username) {
+        return find(Usuario.class, "select e from Usuario e where e.nome = ?1", username);
     }
 
     public Usuario salvar(Usuario e) throws Exception {

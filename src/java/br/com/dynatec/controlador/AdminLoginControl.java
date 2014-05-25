@@ -2,6 +2,7 @@ package br.com.dynatec.controlador;
 
 import br.com.dynatec.entidade.Pessoa;
 import br.com.dynatec.entidade.Usuario;
+import br.com.dynatec.negocio.Seed;
 import br.com.dynatec.negocio.UsuarioNeg;
 import br.jus.tjgo.bnmp.util.UtilFaces;
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @ManagedBean
@@ -18,30 +19,31 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class AdminLoginControl extends BaseControlador<Usuario> implements Serializable {
 
     private static final long serialVersionUID = 9l;
-    
+
     private final UsuarioNeg negocio = new UsuarioNeg();
     private Usuario usuario = new Usuario();
     private Pessoa pessoa = new Pessoa();
 
-    @NotNull(message = "O campo E-Mail não pode ser nulo.")
-    @NotEmpty(message = "O campo E-Mail não pode ser vazio.")
-    @Email(message = "O E-Mail não é válido, digite um e-mail válido.")
-    private String email;
+    @NotNull(message = "O campo Login não pode ser nulo.")
+    @NotEmpty(message = "O campo Login não pode ser vazio.")
+    private String userName;
     @NotNull(message = "O campo Senha não pode ser nulo")
     @NotEmpty(message = "O campo Senha não pode ser vazio.")
-    @Min(6)
+    @Length(min = 6, max = 20)
     private String senha;
     private boolean usuarioLogado = false;
 
     public String doLogin() throws Exception {
+
+        Seed.populaBanco();
         
         int qtdUsuarios = negocio.getQtdUsuarios();
         if (qtdUsuarios == 0) {
             return "/primeiroacesso/usuarioadd.faces";
         }
-        
-        usuario = negocio.findByEmail(email);
-        if (negocio.validaSenha(usuario.getSenha(), senha)) {
+
+        usuario = negocio.findByUserName(userName);
+        if ((usuario != null) && (negocio.validaSenha(usuario.getSenha(), senha))) {
             usuarioLogado = true;
         } else {
             usuarioLogado = false;
@@ -56,14 +58,14 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
     }
 
     public String doFinishCreateUsuarioPrimeiroAcesso() {
-        try {            
+        try {
             usuario = negocio.Criptografa(usuario);
             usuario.setPessoa(this.pessoa);
             this.pessoa.setCreatedAt(new Date());
             this.pessoa.setUpdatedAt(new Date());
             this.pessoa.setAtivo(true);
             this.usuario.setAtivo(true);
-            usuario = negocio.salvar(usuario);            
+            usuario = negocio.salvar(usuario);
             return "/index.jsf";
         } catch (Exception ex) {
             UtilFaces.addErrorMessage(ex.getLocalizedMessage());
@@ -80,12 +82,12 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
         this.usuario = usuario;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getSenha() {
@@ -111,6 +113,5 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
-    
-    
+
 }

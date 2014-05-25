@@ -56,6 +56,10 @@ public class Acesso implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date saida;
 
+    @Column(name = "limite_para_sair")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date limiteParaSair;
+
     @Column
     private Double valorCobrado;
 
@@ -229,6 +233,14 @@ public class Acesso implements Serializable {
 
     public void setLiberado(Boolean liberado) {
         this.liberado = liberado;
+    }
+
+    public Date getLimiteParaSair() {
+        return limiteParaSair;
+    }
+
+    public void setLimiteParaSair(Date limiteParaSair) {
+        this.limiteParaSair = limiteParaSair;
     }
 
     @Override

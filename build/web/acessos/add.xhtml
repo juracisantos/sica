@@ -68,6 +68,11 @@
                                 <h:outputText value="Permanência"/>
                                 <p:outputLabel value="#{acessoControlador.selectedObject.permancencia}" >                        
                                 </p:outputLabel>
+                                
+                                <h:outputText value="Limite para sair"/>
+                                <p:outputLabel value="#{acessoControlador.selectedObject.limiteParaSair}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                                </p:outputLabel>
 
                                 <h:outputText value="Valor cobrado"/>
                                 <p:outputLabel value="#{acessoControlador.selectedObject.valorCobrado}">

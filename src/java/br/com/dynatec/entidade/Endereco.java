@@ -5,12 +5,9 @@
 package br.com.dynatec.entidade;
 
 import br.com.dynantec.type.Estado;
-import br.com.dynantec.validador.ValidPostalCode;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -20,36 +17,29 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "enderecos")
 public class Endereco implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
     @Column(name = "cep")
-    @NotNull
-    @NotEmpty
-    @ValidPostalCode
     private String cep;
-    @Size(max = 255)
-    @NotNull
-    @NotEmpty
-    @Column(name = "logradouro")
-    private String logradouro;
-    @Size(max = 255)
     @Column(name = "complemento")
     private String complemento;
-    @Size(max = 255)
-    @Column(name = "setor")
-    private String setor;
+    @Basic(optional = false)
+    @Column(name = "estado")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Estado estado = Estado.GOIAS;
-    @Size(max = 255)
+    private Estado estado;
+    @Column(name = "logradouro")
+    private String logradouro;
     @Column(name = "municipio")
     private String municipio;
+    @Column(name = "setor")
+    private String setor;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
+    private Collection<Pessoa> pessoas;
 
     public Endereco() {
     }
@@ -110,6 +100,14 @@ public class Endereco implements Serializable {
         this.setor = setor;
     }
 
+    public Collection<Pessoa> getPessoas() {
+        return pessoas;
+    }
+
+    public void setPessoas(Collection<Pessoa> pessoas) {
+        this.pessoas = pessoas;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

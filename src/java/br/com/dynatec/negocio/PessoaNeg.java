@@ -46,6 +46,9 @@ public class PessoaNeg {
     
     public Pessoa findByNome(String nome) {
         return this.pessoaDao.findByNome(nome);
-    } 
+    }
     
+    public Pessoa findByEmail(String email) {
+        return this.pessoaDao.findByEmail(email);
+    } 
 }

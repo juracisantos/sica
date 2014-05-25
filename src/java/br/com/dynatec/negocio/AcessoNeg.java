@@ -6,8 +6,6 @@ import br.com.dynatec.persistencia.AcessoDao;
 import br.jus.tjgo.bnmp.util.UtilDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AcessoNeg {
 
@@ -15,40 +13,6 @@ public class AcessoNeg {
 
     public AcessoNeg() {
         this.acessoDao = new AcessoDao();
-    }
-
-    static {
-        AcessoNeg negocio = new AcessoNeg();
-        Acesso a;
-        a = negocio.find_by_numero_cartao("123456789012");
-        if (a == null) {
-            a = new Acesso();
-            a.setAtivo(Boolean.TRUE);
-            a.setCartao("123456789012");
-            a.setEntrada(new Date());
-            a.setUsuarioRegistrouEntrada(null);
-
-            try {
-                negocio.salvar(a);
-            } catch (Exception ex) {
-                Logger.getLogger(AcessoNeg.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        a = negocio.find_by_numero_cartao("123456789013");
-        if (a == null) {
-            a = new Acesso();
-            a.setAtivo(Boolean.TRUE);
-            a.setCartao("123456789013");
-            a.setEntrada(new Date());
-            a.setUsuarioRegistrouEntrada(null);
-
-            try {
-                negocio.salvar(a);
-            } catch (Exception ex) {
-                Logger.getLogger(AcessoNeg.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     public Acesso find_by_numero_cartao(String cartao) {
@@ -89,7 +53,7 @@ public class AcessoNeg {
     }
     
     private Acesso calcular(Acesso acesso) {
-        List<Regra> regras = acesso.getTabela().getRegras();
+        List<Regra> regras = acesso.getTabela().getRegras();        
 
         Integer ultimo_intervalo = 0;
         Double valor_ultimo_periodo_regra = 0d;
@@ -120,11 +84,21 @@ public class AcessoNeg {
             }
         }
         
+        Date limiteParaSair = somaHora(acesso.getEntrada(), minAcumulados);
+                
         acesso.setValorCobrado(valor);
+        acesso.setLimiteParaSair(limiteParaSair);
         
         String permaneceu = UtilDateTime.minToHora(permancencia);
         acesso.setPermancencia(permaneceu);
         return acesso;
     }
+    
+    private Date somaHora(Date dataHora, Integer minutosParaAdicionar) {
+        java.util.GregorianCalendar gc = new java.util.GregorianCalendar();
+        gc.setTime(dataHora);
 
+        gc.add(java.util.Calendar.MINUTE, minutosParaAdicionar);
+        return gc.getTime();
+    }
 }

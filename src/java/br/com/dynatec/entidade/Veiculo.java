@@ -7,6 +7,7 @@ package br.com.dynatec.entidade;
 
 import br.com.dynantec.type.StatusPresencaCarro;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -74,7 +77,7 @@ public class Veiculo implements Serializable {
 
     public Veiculo() {
         this.cartao = "123456789012";
-    }   
+    }
     
     public Integer getId() {
         return id;

@@ -13,7 +13,7 @@ public class TelefoneEmail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+    @Column(name = "id")
     @Basic(optional = false)
     private Integer id;
     @NotNull

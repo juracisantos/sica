@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -29,13 +28,9 @@ public class Usuario implements Serializable {
 
     @NotNull
     @NotEmpty(message = "O campo Nome deve ser preechido.")
-    @Column(nullable = false)
-    private String nome;
-    @NotNull
-    @NotEmpty(message = "O e-mail não pode ser vazio.")
-    @Email(message = "O e-mail informado não é válido.")
     @Column(nullable = false, unique = true)
-    private String email;
+    private String nome;
+    
     @NotNull
     @NotEmpty(message = "A senha não pode ser vazia.")
     @Column(nullable = false)
@@ -56,7 +51,7 @@ public class Usuario implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(optional = false, orphanRemoval = true)
     @JoinColumn(nullable = false, updatable = false)
     private Pessoa pessoa = new Pessoa();
 
@@ -97,14 +92,6 @@ public class Usuario implements Serializable {
 
     public void seteAdmin(Boolean eAdmin) {
         this.eAdmin = eAdmin;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Integer getId() {
