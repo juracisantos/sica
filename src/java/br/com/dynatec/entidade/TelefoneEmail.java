@@ -2,19 +2,21 @@ package br.com.dynatec.entidade;
 
 import br.com.dynantec.type.FoneEmail;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="telefone_email")
+@Table(name = "telefone_email")
 public class TelefoneEmail implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
+
     @Id
+    @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    @Basic(optional = false)
     private Integer id;
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -24,10 +26,22 @@ public class TelefoneEmail implements Serializable {
     @Column(length = 20)
     private String numero;
     @Column(length = 150)
-    private String observacao;       
-    
+    private String observacao;
+
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id")
+    private Pessoa pessoa;
+
     public FoneEmail getTipo() {
         return tipo;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
     public void setTipo(FoneEmail tipo) {
@@ -50,13 +64,6 @@ public class TelefoneEmail implements Serializable {
         this.observacao = observacao;
     }
 
-//    public Cartorio getPessoaTelefoneEmail() {
-//        return pessoaTelefoneEmail;
-//    }
-//
-//    public void setPessoaTelefoneEmail(Cartorio pessoaTelefoneEmail) {
-//        this.pessoaTelefoneEmail = pessoaTelefoneEmail;
-//    }
     public Integer getId() {
         return id;
     }
@@ -74,13 +81,10 @@ public class TelefoneEmail implements Serializable {
             return false;
         }
         final TelefoneEmail other = (TelefoneEmail) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if (!Objects.equals(this.id, other.id) && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
-        if ((this.numero == null) ? (other.numero != null) : !this.numero.equals(other.numero)) {
-            return false;
-        }
-        return true;
+        return !((this.numero == null) ? (other.numero != null) : !this.numero.equals(other.numero));
     }
 
     @Override
@@ -91,5 +95,4 @@ public class TelefoneEmail implements Serializable {
         return hash;
     }
 
-    
 }

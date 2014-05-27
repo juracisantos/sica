@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:outputStylesheet library="css" name="default.css"/>
+    
+    <ui:define name="title">
+        Cadastro de Pessoas (Novo)
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>Cadastrar Nova Pessoa</h2>
+        <h:form id="frmMensalista">
+            <f:validateBean>
+                <h:panelGrid columns="2">
+                    <p:commandButton action="#{pessoaControlador.salvar}" value="Salvar" ajax="false">
+                    </p:commandButton>
+
+                    <p:commandButton immediate="true" action="#{pessoaControlador.listar}" value="Cancelar" ajax="false">
+                    </p:commandButton>
+                </h:panelGrid>
+
+                <h:messages/>
+
+                <h:panelGrid columns="2">
+                    <h:outputText value="Nome"/>
+                    <p:inputText value="#{pessoaControlador.selectedObject.nome}" size="50" />
+
+                    <h:outputText value="E-mail"/>
+                    <p:inputText value="#{pessoaControlador.selectedObject.email}" size="50" />
+                    
+                    <h:outputText value="CPF"/>
+                    <p:inputMask value="#{pessoaControlador.selectedObject.cpf}" mask="999.999.999-99" id="txtCPF" size="50"/>
+
+                    <h:outputText value="Nascimento"/>
+                    <p:inputMask value="#{pessoaControlador.selectedObject.dataNascimento}" mask="99/99/9999" size="50" id="txtDataNascimento">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+
+                    <h:outputText value="RG"/>
+                    <p:inputText value="#{pessoaControlador.selectedObject.rg}" id="txtRG" size="50"/>                   
+                </h:panelGrid>   
+
+                <p:tabView>
+                    <p:tab title="Endereço">
+                        <p:panel id="pnlEndereco">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="CEP" styleClass="txtLabel"/>
+                                <p:inputMask value="#{pessoaControlador.selectedObject.endereco.cep}" mask="99999-999" size="50"/>
+
+                                <h:outputText value="Logradouro" styleClass="txtLabel"/>
+                                <p:inputText value="#{pessoaControlador.selectedObject.endereco.logradouro}" size="50"/>
+
+                                <h:outputText value="Complemento" styleClass="txtLabel"/>
+                                <p:inputText value="#{pessoaControlador.selectedObject.endereco.complemento}" size="50"/>
+
+                                <h:outputText value="Setor" styleClass="txtLabel"/>
+                                <p:inputText value="#{pessoaControlador.selectedObject.endereco.setor}" size="50"/>
+
+                                <h:outputText value="Estado" styleClass="txtLabel" />
+                                <h:selectOneMenu value="#{pessoaControlador.selectedObject.endereco.estado}" style="width: 150px;">
+                                    <f:selectItems var="item" itemLabel="#{item.descricao}" itemValue="#{item}" value="#{estadosControl.estados}" />
+                                </h:selectOneMenu>
+
+                                <h:outputText value="Municipio" styleClass="txtLabel"/>
+                                <p:inputText value="#{pessoaControlador.selectedObject.endereco.municipio}" size="50"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Contato(s)">
+                        <p:panel id="pnlTelefones">
+                            <h:messages/>
+                            <p:commandButton id="btnNovoFone" action="#{pessoaControlador.addTelefone}" 
+                                             immediate="true" value="Novo" update="pnlTelefones"
+                                             rendered="#{!pessoaControlador.selectedObject.possuiTelefone}">
+                            </p:commandButton>
+                            <p:dataTable value="#{pessoaControlador.selectedObject.telefones}" var="item" id="tblTelefone"
+                                         emptyMessage="Nenhum telefone cadastrado."
+                                         rowIndexVar="lineNumber">
+                                <p:column sortBy="#{item.tipo}">
+                                    <f:facet name="header">
+                                        Tipo
+                                    </f:facet>
+                                    <h:selectOneMenu value="#{item.tipo}" styleClass="inputGrid">
+                                        <f:selectItems var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" value="#{tipoTelefoneControl.tipos}" />
+                                    </h:selectOneMenu>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        Número
+                                    </f:facet>
+                                    <p:inputText value="#{item.numero}" styleClass="inputGrid"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        Observação
+                                    </f:facet>
+                                    <p:inputText value="#{item.observacao}" styleClass="inputGrid"/>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        Ações
+                                    </f:facet>
+                                    <p:commandButton id="btnAddFone" action="#{pessoaControlador.addTelefone}" 
+                                                     immediate="true" 
+                                                     value="+" update=":frmMensalista">
+                                    </p:commandButton>
+
+                                    <p:spacer width="10" height="10" />
+
+                                    <p:commandButton id="btnRemFone"  action="#{pessoaControlador.removeTelefone}" immediate="true"
+                                                     value="-"  update=":frmMensalista">
+                                        <f:setPropertyActionListener target="#{pessoaControlador.telefoneSelecionado}"
+                                                                     value="#{item}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab title="Cartão(ões) Mensalista">                        
+                        <h:messages/>
+                        <p:commandButton id="btnNovoVeiculo" action="#{pessoaControlador.addVeiculo()}" 
+                                         immediate="true" value="Novo" update=":frmMensalista"
+                                         rendered="#{pessoaControlador.selectedObject.veiculos.isEmpty()}">
+                        </p:commandButton>
+                        <p:dataTable value="#{pessoaControlador.selectedObject.veiculos}" var="item" id="tblVeiculo"
+                                     emptyMessage="Nenhum veículo cadastrado."
+                                     rowIndexVar="lineNumber">                               
+
+                            <p:column>
+                                <f:facet name="header">
+                                    Número do Cartão
+                                </f:facet>
+                                <p:inputText value="#{item.cartao}" styleClass="inputGrid"/>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    Veículo
+                                </f:facet>
+                                <p:inputText value="#{item.descricao}" styleClass="inputGrid"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    Placa
+                                </f:facet>
+                                <p:inputText value="#{item.placa}" styleClass="inputGrid" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    Vencimento
+                                </f:facet>
+                                <p:spinner id="diaVencimento"  value="#{item.diaVencimento}" min="1" max="31" size="10" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    Valor
+                                </f:facet>
+                                <p:inputText id="txtValorMensalidade" value="#{item.valorMensalidade}" styleClass="monetario inputGrid" >
+                                    <f:convertNumber pattern="#,###,##0.00"/>
+                                </p:inputText>                               
+                            </p:column> 
+
+                            <p:column>
+                                <f:facet name="header">
+                                    Cartão/Suspenso
+                                </f:facet>
+                                <h:selectOneRadio value="#{item.cartaoSuspenso}" styleClass="inputGrid">  
+                                    <f:selectItem itemValue="true" itemLabel="Sim"  />  
+                                    <f:selectItem itemValue="false" itemLabel="Não" />  
+                                </h:selectOneRadio> 
+                            </p:column>
+
+                            <p:column sortBy="#{item.status}">
+                                <f:facet name="header">
+                                    Situação
+                                </f:facet>
+                                <h:selectOneMenu value="#{item.status}" styleClass="inputGrid">
+                                    <f:selectItems var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" value="#{statusVeiculoControl.statusList}" />
+                                </h:selectOneMenu>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    Ações
+                                </f:facet>
+                                <p:commandButton id="btnAddVeiculo" action="#{pessoaControlador.addVeiculo}" 
+                                                 immediate="false" 
+                                                 value="+" update=":frmMensalista">
+                                </p:commandButton>
+
+                                <p:spacer width="10" height="10" />
+
+                                <p:commandButton id="btnRemVeiculo"  action="#{pessoaControlador.removeVeiculo()}" immediate="false"
+                                                 value="-"  update=":frmMensalista">
+                                    <f:setPropertyActionListener target="#{pessoaControlador.veiculoSelecionado}"
+                                                                 value="#{item}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:tab>
+                </p:tabView>
+
+            </f:validateBean>
+        </h:form>
+    </ui:define>
+</ui:composition>

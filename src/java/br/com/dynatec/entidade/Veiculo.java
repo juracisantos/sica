@@ -7,9 +7,9 @@ package br.com.dynatec.entidade;
 
 import br.com.dynantec.type.StatusPresencaCarro;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,9 +17,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -33,19 +33,19 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Veiculo implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Size(max = 32)
     @NotNull
     @NotEmpty
-    @Column(name = "cartao", nullable = false)
+    @Column(name = "cartao", nullable = false, unique = true)
     private String cartao;
-    
+
     @Size(max = 255)
     @NotNull
     @NotEmpty
@@ -75,10 +75,24 @@ public class Veiculo implements Serializable {
     @Column(nullable = false)
     private boolean cartaoSuspenso;
 
+//    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
+//    @ManyToOne
+//    private Pessoa pessoaVeiculo;
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id")
+    private Pessoa pessoa;
+
     public Veiculo() {
-        this.cartao = "123456789012";
     }
-    
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -111,8 +125,6 @@ public class Veiculo implements Serializable {
         this.diaVencimento = diaVencimento;
     }
 
-   
-
     public Double getValorMensalidade() {
         return valorMensalidade;
     }
@@ -144,7 +156,7 @@ public class Veiculo implements Serializable {
     public void setCartao(String cartao) {
         this.cartao = cartao;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;

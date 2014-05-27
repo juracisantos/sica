@@ -40,7 +40,7 @@ public class UsuarioControlador extends BaseControlador<Usuario> implements Seri
     }
 
     public String salvar() {
-        try {
+        try {            
             this.negocio.salvar(getSelectedObject());            
             return listar();
         } catch (Exception ex) {

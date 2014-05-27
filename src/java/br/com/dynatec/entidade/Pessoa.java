@@ -6,6 +6,7 @@ package br.com.dynatec.entidade;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,11 +22,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "pessoas")
 public class Pessoa implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 33L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
 
@@ -58,31 +58,40 @@ public class Pessoa implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    @Temporal(TemporalType.DATE)
-    private Date pagoAte;
-
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Endereco endereco;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "PESSOA_VEICULO", joinColumns = {
-        @JoinColumn(name = "PESSOA_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-        @JoinColumn(name = "VEICULO_ID", referencedColumnName = "ID")})
-    private List<Veiculo> veiculos;
+    @OneToMany(mappedBy = "pessoa", targetEntity = Veiculo.class, cascade = CascadeType.ALL)
+    private final List<Veiculo> veiculos = new LinkedList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "PESSOA_TELEFONE_EMAIL", joinColumns = {
-        @JoinColumn(name = "PESSOA_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-        @JoinColumn(name = "TELEFONEEMAIL_ID", referencedColumnName = "ID")})
-    private List<TelefoneEmail> pessoaTelefonesEmails;
+    @OneToMany(mappedBy = "pessoa", targetEntity = TelefoneEmail.class, cascade = CascadeType.ALL)
+    private final List<TelefoneEmail> telefones = new LinkedList<>();
 
     public boolean isPossuiTelefone() {
-        boolean retorno = !this.pessoaTelefonesEmails.isEmpty();
+        boolean retorno = !this.telefones.isEmpty();
         return retorno;
     }
 
     public Pessoa() {
+    }
+
+    public void addTelefone(TelefoneEmail f) {
+        this.getTelefones().add(f);
+        f.setPessoa(this);
+    }
+    
+    public void addVeidulo(Veiculo v) {
+        this.getVeiculos().add(v);
+        v.setPessoa(this);
+    }
+    
+    public List<Veiculo> getVeiculos() {
+        return veiculos;
+    }
+
+    public List<TelefoneEmail> getTelefones() {
+        return telefones;
     }
 
     public Boolean getAtivo() {
@@ -145,14 +154,6 @@ public class Pessoa implements Serializable {
         this.nome = nome;
     }
 
-    public List<TelefoneEmail> getPessoaTelefonesEmails() {
-        return pessoaTelefonesEmails;
-    }
-
-    public void setPessoaTelefonesEmails(List<TelefoneEmail> pessoaTelefonesEmails) {
-        this.pessoaTelefonesEmails = pessoaTelefonesEmails;
-    }
-
     public Date getUpdatedAt() {
         return updatedAt;
     }
@@ -177,22 +178,6 @@ public class Pessoa implements Serializable {
         this.endereco = endereco;
     }
 
-    public List<Veiculo> getVeiculos() {
-        return veiculos;
-    }
-
-    public void setVeiculos(List<Veiculo> veiculos) {
-        this.veiculos = veiculos;
-    }
-
-    public Date getPagoAte() {
-        return pagoAte;
-    }
-
-    public void setPagoAte(Date pagoAte) {
-        this.pagoAte = pagoAte;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -215,6 +200,6 @@ public class Pessoa implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.umbrella.selo.entidade.Pessoas[ id=" + id + " ]";
+        return "CPF: " + this.cpf + " - Nome: " + this.nome;
     }
 }

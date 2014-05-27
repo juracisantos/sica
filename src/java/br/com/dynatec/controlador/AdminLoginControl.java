@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.validation.constraints.Min;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -36,7 +36,7 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
     public String doLogin() throws Exception {
 
         Seed.populaBanco();
-        
+
         int qtdUsuarios = negocio.getQtdUsuarios();
         if (qtdUsuarios == 0) {
             return "/primeiroacesso/usuarioadd.faces";
@@ -50,6 +50,10 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
         }
 
         if (isUsuarioLogado()) {
+            HttpSession session = UtilFaces.getSession();
+            session.setAttribute("usuario_id", usuario.getId());
+            session.setAttribute("usuario_nome", usuario.getNome());
+            session.setAttribute("usuario_grupo", usuario.getGrupo().getNome());
 
             return "/index.jsf";
         } else {
@@ -58,8 +62,7 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
     }
 
     public String doFinishCreateUsuarioPrimeiroAcesso() {
-        try {
-            usuario = negocio.Criptografa(usuario);
+        try {            
             usuario.setPessoa(this.pessoa);
             this.pessoa.setCreatedAt(new Date());
             this.pessoa.setUpdatedAt(new Date());

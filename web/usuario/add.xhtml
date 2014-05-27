@@ -40,10 +40,16 @@
                     <p:password value="#{usuarioControlador.selectedObject.confSenha}" size="50"
                                 feedback="false" />
 
+                    <h:outputText value="Pessoa"/>
+                    <h:selectOneMenu id="pessoaId" value="#{usuarioControlador.selectedObject.pessoa}" title="Titulo Grupo" >
+                        <f:selectItems value="#{pessoaControlador.pessoasSelectOne}"/>
+                    </h:selectOneMenu>
+                    
                     <h:outputText value="Grupo"/>
                     <h:selectOneMenu id="grupoId" value="#{usuarioControlador.selectedObject.grupo}" title="Titulo Grupo" >
                         <f:selectItems value="#{grupoControlador.gruposSelectOne}"/>
-                    </h:selectOneMenu>  
+                    </h:selectOneMenu>
+                                        
                 </h:panelGrid>
             </f:validateBean>
         </h:form>

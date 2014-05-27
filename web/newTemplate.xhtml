@@ -3,17 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />                         
-        <title><ui:insert name="title">Selo</ui:insert></title>
-<!--        <style>
-            .ui-widget,
-            .ui-widget .ui-widget {
-                font-size: 11px !important;
-            }
-        </style>-->
+        <title><ui:insert name="title">SICE</ui:insert></title>
+        <!--        <style>
+                    .ui-widget,
+                    .ui-widget .ui-widget {
+                        font-size: 11px !important;
+                    }
+                </style>-->
     </h:head>
 
     <h:body>        
@@ -31,20 +32,22 @@
                           collapsible="true">         
                 <h:form>
                     <p:menu style="width: 95%; height: 100%;">
-                        <p:submenu label="Cadastros">  
-                            <p:menuitem value="Configurações" action="#{configuracaoControlador.listar}" ajax="false"/>
-                            <p:menuitem value="Grupos" action="#{grupoControlador.listar}" ajax="false"/>
-                            <p:menuitem value="Usuarios" action="#{usuarioControlador.listar}" ajax="false"/> 
-                            <p:menuitem value="Mensalistas" action="#{pessoaControlador.listar}" ajax="false"/>
-                            <p:menuitem value="Tabelas" action="#{tabelaControlador.listar}" ajax="false"/>                            
-                        </p:submenu>
+                        <c:if test="${session.getValue('usuario_grupo') == 'Administrador'}">
+                            <p:submenu label="Cadastros">  
+                                <p:menuitem value="Configurações" action="#{configuracaoControlador.listar}" ajax="false"/>
+                                <p:menuitem value="Grupos" action="#{grupoControlador.listar}" ajax="false"/>
+                                <p:menuitem value="Usuarios" action="#{usuarioControlador.listar}" ajax="false"/> 
+                                <p:menuitem value="Pessoas" action="#{pessoaControlador.listar}" ajax="false"/>
+                                <p:menuitem value="Tabelas" action="#{tabelaControlador.listar}" ajax="false"/>                            
+                            </p:submenu>
+                        </c:if>
                         <p:submenu label="Caixa">
                             <p:menuitem value="Acessos" action="#{acessoControlador.novo()}" ajax="false"/>
                             <p:menuitem value="Depósito de caixa" action="#{grupoControlador.listar}" ajax="false"/> 
                             <p:menuitem value="Retirada de caixa" action="#{grupoControlador.listar}" ajax="false"/>
                         </p:submenu>
                         <p:submenu label="Relatório">                            
-                                                     
+
                         </p:submenu>
                     </p:menu>
                 </h:form>

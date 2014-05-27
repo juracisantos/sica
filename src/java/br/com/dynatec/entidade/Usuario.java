@@ -53,7 +53,7 @@ public class Usuario implements Serializable {
 
     @OneToOne(optional = false, orphanRemoval = true)
     @JoinColumn(nullable = false, updatable = false)
-    private Pessoa pessoa = new Pessoa();
+    private Pessoa pessoa;
 
     @JoinColumn(referencedColumnName = "id", name = "grupo_id")
     @ManyToOne(optional = false)
@@ -164,7 +164,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.umbrella.selo.entidade.Users[ id=" + id + " ]";
+        return "br.com.dynatec.entidade.Users[ id=" + id + " ]";
     }
 
 }

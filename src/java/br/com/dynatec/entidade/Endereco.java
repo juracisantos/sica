@@ -130,6 +130,6 @@ public class Endereco implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.umbrella.selo.entidade.Endereco[ id=" + id + " ]";
+        return "br.com.dynatec.entidade.Endereco[ id=" + id + " ]";
     }
 }

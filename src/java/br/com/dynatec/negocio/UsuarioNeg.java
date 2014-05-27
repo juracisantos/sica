@@ -4,33 +4,40 @@ import br.com.dynantec.criptografia.CriptografiaSHA512;
 import br.com.dynatec.entidade.Usuario;
 import br.com.dynatec.persistencia.UsuarioDao;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 
 public class UsuarioNeg {
 
-    private final UsuarioDao usuarioDao;        
-    
+    private final UsuarioDao usuarioDao;
+
     public UsuarioNeg() {
         this.usuarioDao = new UsuarioDao();
     }
-    
+
     public List<Usuario> findAll() {
         return this.usuarioDao.findAll();
     }
-    
+
     public int getQtdUsuarios() {
         return this.usuarioDao.getQtdUsuarios();
     }
-    
-    public Usuario salvar(Usuario usuario) throws Exception  {
+
+    public Usuario salvar(Usuario usuario) throws Exception {
+        if (usuario.getId() == null) {
+            usuario.setAtivo(Boolean.TRUE);
+            usuario = this.criptografa(usuario);
+            usuario.setCreatedAt(new Date());            
+        }
+        usuario.setUpdatedAt(new Date());
         return usuarioDao.salvar(usuario);
     }
-    
+
     public Usuario findByUserName(String username) {
         return this.usuarioDao.findByUserName(username);
     }
-    
-    public Usuario Criptografa(Usuario usuario) throws Exception {
+
+    public Usuario criptografa(Usuario usuario) throws Exception {
         if ((!usuario.getSenha().equals(usuario.getConfSenha()))
                 || ("".equals(usuario.getSenha()))) {
             throw new Exception("Senha não confere.");
@@ -58,5 +65,5 @@ public class UsuarioNeg {
             return false;
         }
     }
-    
+
 }

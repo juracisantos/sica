@@ -5,6 +5,7 @@
 package br.com.dynatec.controlador;
 
 import br.com.dynatec.entidade.Endereco;
+import br.com.dynatec.entidade.Grupo;
 import br.com.dynatec.entidade.Pessoa;
 import br.com.dynatec.entidade.TelefoneEmail;
 import br.com.dynatec.entidade.Veiculo;
@@ -14,6 +15,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
+import javax.faces.model.SelectItem;
 
 /**
  *
@@ -23,7 +29,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class PessoaControlador extends BaseControlador<Pessoa> implements Serializable {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 5L;
 
     private final PessoaNeg negocio = new PessoaNeg();
     private List<Pessoa> pessoas;
@@ -34,18 +40,18 @@ public class PessoaControlador extends BaseControlador<Pessoa> implements Serial
     }
 
     public String addTelefone() {
-        this.getSelectedObject().getPessoaTelefonesEmails().add(new TelefoneEmail());
+        this.getSelectedObject().addTelefone(new TelefoneEmail());
         return null;
     }
 
     public String removeTelefone() {;
-        int i = this.getSelectedObject().getPessoaTelefonesEmails().indexOf(this.telefoneSelecionado);
-        this.getSelectedObject().getPessoaTelefonesEmails().remove(i);
+        int i = this.getSelectedObject().getTelefones().indexOf(this.telefoneSelecionado);
+        this.getSelectedObject().getTelefones().remove(i);
         return null;
     }
 
     public String addVeiculo() {
-        this.getSelectedObject().getVeiculos().add(new Veiculo());
+        this.getSelectedObject().addVeidulo(new Veiculo());
         return null;
     }
 
@@ -57,12 +63,12 @@ public class PessoaControlador extends BaseControlador<Pessoa> implements Serial
 
     public String listar() {
         this.pessoas = this.negocio.findAll();
-        return "/mensalistas/list.jsf";
+        return "/pessoas/list.jsf";
     }
 
     public String novo() {
         this.setSelectedObject(negocio.getNovaPessoa());
-        return "/mensalistas/add.jsf";
+        return "/pessoas/add.jsf";
     }
 
     public String salvar() {
@@ -78,7 +84,7 @@ public class PessoaControlador extends BaseControlador<Pessoa> implements Serial
     public String edit() {
         if (getSelectedObject().getEndereco() == null)
             getSelectedObject().setEndereco(new Endereco());
-        return "/mensalistas/edit.jsf";
+        return "/pessoas/edit.jsf";
     }
 
     public String remover() {
@@ -107,6 +113,54 @@ public class PessoaControlador extends BaseControlador<Pessoa> implements Serial
 
     public void setVeiculoSelecionado(Veiculo veiculoSelecionado) {
         this.veiculoSelecionado = veiculoSelecionado;
-    }         
+    } 
+    
+    public SelectItem[] getPessoasSelectOne() {
+        return UtilFaces.getSelectItems(negocio.findAll(), true);
+    }
+    
+    public Pessoa getPessoa(Integer idPessoa) {
+        return negocio.find(idPessoa);
+    }
+    
+    @FacesConverter(forClass = Pessoa.class)
+    public static class PessoasControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            PessoaControlador controller = (PessoaControlador) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "pessoaControlador");
+            return controller.getPessoa(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof Pessoa) {
+                Pessoa o = (Pessoa) object;
+                return getStringKey(o.getId());
+            } else {
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Pessoa.class.getName());
+            }
+        }
+
+    }
 
 }
