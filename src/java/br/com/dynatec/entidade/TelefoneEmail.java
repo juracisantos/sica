@@ -23,7 +23,7 @@ public class TelefoneEmail implements Serializable {
     private FoneEmail tipo = FoneEmail.FIXO;
     @NotNull
     @NotEmpty
-    @Column(length = 20)
+    @Column(length = 150)
     private String numero;
     @Column(length = 150)
     private String observacao;

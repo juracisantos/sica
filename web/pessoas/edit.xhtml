@@ -8,13 +8,13 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <h:outputStylesheet library="css" name="default.css"/>
-    
+
     <ui:define name="title">
-        Editar de Pessoas (Novo)
+        Cadastro de Pessoas (Editar)
     </ui:define>
 
     <ui:define name="content">
-        <h2>Editar Pessoa</h2>
+        <h2>Editar Nova Pessoa</h2>
         <h:form id="frmMensalista">
             <f:validateBean>
                 <h:panelGrid columns="2">
@@ -33,7 +33,7 @@
 
                     <h:outputText value="E-mail"/>
                     <p:inputText value="#{pessoaControlador.selectedObject.email}" size="50" />
-                    
+
                     <h:outputText value="CPF"/>
                     <p:inputMask value="#{pessoaControlador.selectedObject.cpf}" mask="999.999.999-99" id="txtCPF" size="50"/>
 
@@ -141,15 +141,15 @@
                                 <f:facet name="header">
                                     Número do Cartão
                                 </f:facet>
-                                <p:inputText value="#{item.cartao}" styleClass="inputGrid"/>
+                                <p:inputText readonly="true" value="#{item.cartao}" styleClass="inputGrid"/>
                             </p:column>
-                            
-                            <p:column>
-                                <f:facet name="header">
-                                    Veículo
-                                </f:facet>
-                                <p:inputText value="#{item.descricao}" styleClass="inputGrid"/>
-                            </p:column>
+
+                            <!--                            <p:column>
+                                                            <f:facet name="header">
+                                                                Veículo
+                                                            </f:facet>
+                                                            <p:inputText value="{item.descricao}" styleClass="inputGrid"/>
+                                                        </p:column>-->
 
                             <p:column>
                                 <f:facet name="header">
@@ -162,7 +162,8 @@
                                 <f:facet name="header">
                                     Vencimento
                                 </f:facet>
-                                <p:spinner id="diaVencimento"  value="#{item.diaVencimento}" min="1" max="31" size="10" />
+                                <p:calendar id="diaVencimento" value="#{item.dataVencimento}" 
+                                            pattern="dd-MM-yyyy" mask="true" style="width: 150px;" size="10"/>
                             </p:column>
 
                             <p:column>
@@ -178,10 +179,10 @@
                                 <f:facet name="header">
                                     Cartão/Suspenso
                                 </f:facet>
-                                <h:selectOneRadio value="#{item.cartaoSuspenso}" styleClass="inputGrid">  
+                                <h:selectOneMenu value="#{item.cartaoSuspenso}" styleClass="inputGrid">  
                                     <f:selectItem itemValue="true" itemLabel="Sim"  />  
                                     <f:selectItem itemValue="false" itemLabel="Não" />  
-                                </h:selectOneRadio> 
+                                </h:selectOneMenu> 
                             </p:column>
 
                             <p:column sortBy="#{item.status}">
@@ -191,6 +192,16 @@
                                 <h:selectOneMenu value="#{item.status}" styleClass="inputGrid">
                                     <f:selectItems var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" value="#{statusVeiculoControl.statusList}" />
                                 </h:selectOneMenu>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    Cartão/Mestre
+                                </f:facet>
+                                <h:selectOneMenu value="#{item.cartaoMestre}" styleClass="inputGrid">  
+                                    <f:selectItem itemValue="true" itemLabel="Sim"  />  
+                                    <f:selectItem itemValue="false" itemLabel="Não" />  
+                                </h:selectOneMenu> 
                             </p:column>
 
                             <p:column>

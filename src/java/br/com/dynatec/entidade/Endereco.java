@@ -38,7 +38,7 @@ public class Endereco implements Serializable {
     private String municipio;
     @Column(name = "setor")
     private String setor;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
+    @OneToMany(mappedBy = "endereco")
     private Collection<Pessoa> pessoas;
 
     public Endereco() {

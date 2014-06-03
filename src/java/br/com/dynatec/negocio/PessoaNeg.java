@@ -3,7 +3,6 @@ package br.com.dynatec.negocio;
 import br.com.dynatec.entidade.Endereco;
 import br.com.dynatec.entidade.Pessoa;
 import br.com.dynatec.entidade.TelefoneEmail;
-import br.com.dynatec.entidade.Veiculo;
 import br.com.dynatec.persistencia.PessoaDao;
 import java.util.List;
 
@@ -45,7 +44,13 @@ public class PessoaNeg {
         return this.pessoaDao.findByEmail(email);
     } 
     
+    public Pessoa findByCartao(String cartao) {
+        return this.pessoaDao.findByCartao(cartao);
+    }
+    
     public Pessoa find(Integer idPessoa) {
         return pessoaDao.find(idPessoa);
     }
+    
+    
 }

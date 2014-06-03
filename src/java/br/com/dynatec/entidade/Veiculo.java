@@ -7,9 +7,9 @@ package br.com.dynatec.entidade;
 
 import br.com.dynantec.type.StatusPresencaCarro;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,6 +20,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -41,48 +43,55 @@ public class Veiculo implements Serializable {
     private Integer id;
 
     @Size(max = 32)
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Cartão - preenchimento obrigatório.")
+    @NotEmpty(message = "Cartão - preenchimento obrigatório.")
     @Column(name = "cartao", nullable = false, unique = true)
     private String cartao;
 
     @Size(max = 255)
-    @NotNull
-    @NotEmpty
-    @Column(name = "descricao", nullable = false)
+    @Column(name = "descricao")
     private String descricao;
 
     @Size(max = 255)
-    @NotNull
-    @NotEmpty
     @Column(name = "placa", nullable = false)
     private String placa;
 
-    @NotNull
+    @NotNull(message = "Vencimento - preenchimento obrigatório.")
     @Column(name = "vencimento", nullable = false)
-    private Integer diaVencimento;
+    @Temporal(TemporalType.DATE)
+    private Date dataVencimento;
 
-    @NotNull
+    @NotNull(message = "Valor da mensalidade - preenchimento obrigatório.")
     @Column(nullable = false)
     private Double valorMensalidade;
 
-    @NotNull
+    @NotNull(message = "Situação - preenchimento obrigatório.")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPresencaCarro status;
 
-    @NotNull
+    @NotNull(message = "Cartão suspenso - preenchimento obrigatório.")
     @Column(nullable = false)
     private boolean cartaoSuspenso;
 
-//    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
-//    @ManyToOne
-//    private Pessoa pessoaVeiculo;
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date liberado_ate;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean cartaoMestre;
+
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
     public Veiculo() {
+        this.cartaoMestre = false;
+        this.cartaoSuspenso = false;
+        this.status = StatusPresencaCarro.AUSENTE;
+        this.valorMensalidade = 0.0d;
+        this.dataVencimento = new Date();
     }
 
     public Pessoa getPessoa() {
@@ -117,12 +126,12 @@ public class Veiculo implements Serializable {
         this.placa = placa;
     }
 
-    public Integer getDiaVencimento() {
-        return diaVencimento;
+    public Date getDataVencimento() {
+        return dataVencimento;
     }
 
-    public void setDiaVencimento(Integer diaVencimento) {
-        this.diaVencimento = diaVencimento;
+    public void setDataVencimento(Date dataVencimento) {
+        this.dataVencimento = dataVencimento;
     }
 
     public Double getValorMensalidade() {
@@ -155,6 +164,22 @@ public class Veiculo implements Serializable {
 
     public void setCartao(String cartao) {
         this.cartao = cartao;
+    }
+
+    public boolean isCartaoMestre() {
+        return cartaoMestre;
+    }
+
+    public void setCartaoMestre(boolean cartaoMestre) {
+        this.cartaoMestre = cartaoMestre;
+    }
+
+    public Date getLiberado_ate() {
+        return liberado_ate;
+    }
+
+    public void setLiberado_ate(Date liberado_ate) {
+        this.liberado_ate = liberado_ate;
     }
 
     @Override

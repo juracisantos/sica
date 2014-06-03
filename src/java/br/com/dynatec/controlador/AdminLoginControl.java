@@ -53,6 +53,7 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
             HttpSession session = UtilFaces.getSession();
             session.setAttribute("usuario_id", usuario.getId());
             session.setAttribute("usuario_nome", usuario.getNome());
+            session.setAttribute("pessoa_nome", usuario.getPessoa().getNome());
             session.setAttribute("usuario_grupo", usuario.getGrupo().getNome());
 
             return "/index.jsf";

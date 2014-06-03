@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -26,13 +27,15 @@ public class Usuario implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "O campo Nome deve ser preechido.")
     @NotEmpty(message = "O campo Nome deve ser preechido.")
+    @Length(min = 3, max = 250, message = "O nome deve ter mais de 3 (três) digitos.")
     @Column(nullable = false, unique = true)
     private String nome;
     
-    @NotNull
+    @NotNull(message = "A senha não pode ser vazia.")
     @NotEmpty(message = "A senha não pode ser vazia.")
+    @Length(min = 6, max = 20, message = "A senha deve ter mais 6 (seis) digitos.")
     @Column(nullable = false)
     private String senha;
 

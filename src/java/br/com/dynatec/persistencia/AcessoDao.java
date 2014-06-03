@@ -6,6 +6,7 @@
 package br.com.dynatec.persistencia;
 
 import br.com.dynatec.entidade.Acesso;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +34,10 @@ public class AcessoDao extends PersistenciaJpa {
     
     public Acesso find_by_numero_cartao(String cartao) {
         return find(Acesso.class, "select e from Acesso e where e.cartao = ?1", cartao);
+    }
+    
+    public List<Acesso> findByDataTransacaoFinanceira(Date dataTransacao) {
+        return findAll(Acesso.class, "select e from Acesso e where e.dataTransacaoFinaceira = ?1", dataTransacao);
     }
 
     public boolean removeAcesso(Integer idAcesso) {

@@ -5,6 +5,7 @@
  */
 package br.com.dynatec.entidade;
 
+import br.jus.tjgo.bnmp.util.UtilDateTime;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,13 +35,14 @@ public class Acesso implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "seq_acesso", sequenceName = "seq_acesso", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "O campo Cartão deve ser preechido.")
     @NotEmpty(message = "O campo Cartão deve ser preechido.")
     @Column(nullable = false)
     private String cartao;
@@ -59,6 +62,10 @@ public class Acesso implements Serializable {
     @Column(name = "limite_para_sair")
     @Temporal(TemporalType.TIMESTAMP)
     private Date limiteParaSair;
+
+    @Column()
+    @Temporal(TemporalType.DATE)
+    private Date dataTransacaoFinaceira;
 
     @Column
     private Double valorCobrado;
@@ -156,7 +163,7 @@ public class Acesso implements Serializable {
     }
 
     public Double getDesconto() {
-        return desconto;
+        return desconto == null ? 0.0d : this.desconto;
     }
 
     public void setDesconto(Double desconto) {
@@ -188,7 +195,7 @@ public class Acesso implements Serializable {
     }
 
     public Double getValorRecebido() {
-        return valorRecebido;
+        return valorRecebido == null ? 0.0d : valorRecebido;
     }
 
     public void setValorRecebido(Double valorRecebido) {
@@ -196,7 +203,7 @@ public class Acesso implements Serializable {
     }
 
     public Double getTroco() {
-        return troco;
+        return this.getValorRecebido() - this.getValorAReceber();
     }
 
     public void setTroco(Double troco) {
@@ -212,7 +219,7 @@ public class Acesso implements Serializable {
     }
 
     public String getPermancencia() {
-        return permancencia;
+        return UtilDateTime.formataHoraHHMM(permancencia);
     }
 
     public void setPermancencia(String permancencia) {
@@ -220,7 +227,11 @@ public class Acesso implements Serializable {
     }
 
     public Double getValorAReceber() {
-        return valorAReceber;
+        if (this.valorCobrado != null) {
+            return this.getValorCobrado() - this.getDesconto();
+        } else {
+            return 0.0d;
+        }
     }
 
     public void setValorAReceber(Double valorAReceber) {
@@ -241,6 +252,14 @@ public class Acesso implements Serializable {
 
     public void setLimiteParaSair(Date limiteParaSair) {
         this.limiteParaSair = limiteParaSair;
+    }
+
+    public Date getDataTransacaoFinaceira() {
+        return dataTransacaoFinaceira;
+    }
+
+    public void setDataTransacaoFinaceira(Date dataTransacaoFinaceira) {
+        this.dataTransacaoFinaceira = dataTransacaoFinaceira;
     }
 
     @Override

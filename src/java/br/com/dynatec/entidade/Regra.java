@@ -35,23 +35,23 @@ public class Regra implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @NotNull
-    @NotEmpty(message = "O campo Valor deve ser preechido.")
+    @NotNull(message = "O campo Descrição deve ser preechido.")
+    @NotEmpty(message = "O campo Descrição deve ser preechido.")
     @Column(nullable = false)
     private String descricao;
 
     @Column(nullable = false)
     private Integer sequencia;
 
-    @NotNull
+    @NotNull(message = "O campo Intervalo Hora deve ser preechido.")
     @Column(nullable = false)
     private Integer intervaloHora;
 
-    @NotNull
+    @NotNull(message = "O campo Intervalo Minuto deve ser preechido.")
     @Column(nullable = false)
     private Integer intervaloMinuto;
 
-    @NotNull
+    @NotNull(message = "O campo valor deve ser informado")
     @Column(nullable = false)
     private Double valor;
 

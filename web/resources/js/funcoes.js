@@ -8,8 +8,11 @@ jQuery(document).ready(function() {
     jQuery(".data").mask('00/00/0000');
     
     jQuery("#txtDesconto").maskMoney({symbol: "R$", decimal: ",", thousands: "."});
-    jQuery("#txtValorRecebido").maskMoney({symbol: "R$", decimal: ",", thousands: "."});
-    jQuery("#txtTroco").maskMoney({symbol: "R$", decimal: ",", thousands: "."});
+    jQuery("#txtValorRecebido").maskMoney({symbol: "R$", decimal: ",", thousands: "."});    
+    
+    jQuery("#txtDescontoMensalista").maskMoney({symbol: "R$", decimal: ",", thousands: "."});
+    jQuery("#txtValorRecebidoMensalista").maskMoney({symbol: "R$", decimal: ",", thousands: "."});
+    
 });
 
 function visualizarRelatorio() {

@@ -5,10 +5,10 @@
 package br.com.dynatec.controlador;
 
 import br.com.dynatec.entidade.Endereco;
-import br.com.dynatec.entidade.Grupo;
 import br.com.dynatec.entidade.Pessoa;
 import br.com.dynatec.entidade.TelefoneEmail;
 import br.com.dynatec.entidade.Veiculo;
+import br.com.dynatec.negocio.CartaoNeg;
 import br.com.dynatec.negocio.PessoaNeg;
 import br.jus.tjgo.bnmp.util.UtilFaces;
 import java.io.Serializable;
@@ -32,6 +32,8 @@ public class PessoaControlador extends BaseControlador<Pessoa> implements Serial
     private static final long serialVersionUID = 5L;
 
     private final PessoaNeg negocio = new PessoaNeg();
+    private final CartaoNeg cartaoNeg = new CartaoNeg();
+    
     private List<Pessoa> pessoas;
     private TelefoneEmail telefoneSelecionado;
     private Veiculo veiculoSelecionado;
@@ -51,7 +53,12 @@ public class PessoaControlador extends BaseControlador<Pessoa> implements Serial
     }
 
     public String addVeiculo() {
-        this.getSelectedObject().addVeidulo(new Veiculo());
+        Veiculo veiculo = new Veiculo();
+        
+        String numCartao = cartaoNeg.gerarNumeroCartao();
+        
+        veiculo.setCartao(numCartao);
+        this.getSelectedObject().addVeidulo(veiculo);
         return null;
     }
 

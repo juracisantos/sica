@@ -30,6 +30,12 @@ public class PessoaDao extends PersistenciaJpa {
     public Pessoa findByEmail(String email) {
         return find(Pessoa.class, "select e from Pessoa e where e.email = ?1", email);
     }
+    
+    public Pessoa findByCartao(String cartao) {
+        return find(Pessoa.class, "select e from Pessoa e"
+                + " left join e.veiculos v "               
+                + " where v.cartao = ?1", cartao);
+    }
 
     public Pessoa salvar(Pessoa e) throws Exception {
         return save(Pessoa.class, e);

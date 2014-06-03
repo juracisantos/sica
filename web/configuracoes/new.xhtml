@@ -29,10 +29,10 @@
                     </p:inputText>   
 
                     <h:outputText value="Tolerância para sair:"/>
-                    <p:spinner id="diaVencimento"  value="#{configuracaoControlador.selectedObject.tolerancia}" min="0" max="60" size="5" />
+                    <p:spinner id="toleranciaParaSair"  value="#{configuracaoControlador.selectedObject.tolerancia}" min="0" max="60" size="5" />
                     
                     <h:outputText value="Tolerância pagamento mensalista:"/>
-                    <p:spinner id="diaVencimento"  value="#{configuracaoControlador.selectedObject.toleranciaMensalista}" min="0" max="30" size="5" />
+                    <p:spinner id="toleranciaPagamento"  value="#{configuracaoControlador.selectedObject.toleranciaMensalista}" min="0" max="30" size="5" />
                 </h:panelGrid>
             </f:validateBean>
         </h:form>

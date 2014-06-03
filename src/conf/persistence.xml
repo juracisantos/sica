@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="sicePU" transaction-type="JTA">
-    <jta-data-source>estacionamento</jta-data-source>
-    <class>br.com.dynatec.entidade.Acesso</class>
-    <class>br.com.dynatec.entidade.Configuracao</class>
-    <class>br.com.dynatec.entidade.Endereco</class>
-    <class>br.com.dynatec.entidade.Grupo</class>
-    <class>br.com.dynatec.entidade.Pessoa</class>
-    <class>br.com.dynatec.entidade.Regra</class>
-    <class>br.com.dynatec.entidade.Tabela</class>
-    <class>br.com.dynatec.entidade.TelefoneEmail</class>
-    <class>br.com.dynatec.entidade.Usuario</class>
-    <class>br.com.dynatec.entidade.Veiculo</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <validation-mode>NONE</validation-mode>
-    <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="sicePU" transaction-type="JTA">
+        <jta-data-source>estacionamento</jta-data-source>
+        <class>br.com.dynatec.entidade.Acesso</class>
+        <class>br.com.dynatec.entidade.Configuracao</class>
+        <class>br.com.dynatec.entidade.Endereco</class>
+        <class>br.com.dynatec.entidade.Grupo</class>
+        <class>br.com.dynatec.entidade.Pessoa</class>
+        <class>br.com.dynatec.entidade.Regra</class>
+        <class>br.com.dynatec.entidade.Tabela</class>
+        <class>br.com.dynatec.entidade.TelefoneEmail</class>
+        <class>br.com.dynatec.entidade.Usuario</class>
+        <class>br.com.dynatec.entidade.Veiculo</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <validation-mode>NONE</validation-mode>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="none"/>
+            <property name="eclipselink.weaving" value="static" />
+            <property name="eclipselink.logging.level.sql" value="FINEST" />
+            <property name="eclipselink.logging.level" value="FINEST" />
+            <property name="eclipselink.logging.level.cache" value="FINEST" />
+        </properties>
+    </persistence-unit>
 </persistence>

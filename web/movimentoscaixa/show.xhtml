@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        Cadastro Movimento de Caixa (Novo)
+    </ui:define>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="default.css" />
+
+        <h2>Movimento do dia - #{movimentoCaixaControlador.dataDiaStr} </h2>
+        <h:form prependId="false">
+            <f:validateBean> 
+                <p:messages id="msgs"  autoUpdate="true"/> 
+
+                <h:panelGrid columns="1">               
+                    <p:commandButton immediate="true" action="#{movimentoCaixaControlador.listar()}" value="Cancelar" ajax="false"/>                    
+                </h:panelGrid>
+
+                <h:panelGrid columns="2">
+
+                    <h:outputText value="Depósito inicial:" styleClass="txtLabel" />
+                    <h:selectOneMenu value="#{movimentoCaixaControlador.selectedObject.tipoMovimento}" style="width: 150px;">
+                        <f:selectItems var="item" itemLabel="#{item.descricao}" itemValue="#{item}" value="#{tipoMovimentoControl.tipoMovimentoList}" />
+                    </h:selectOneMenu>
+
+                    <h:outputText value="Valor" styleClass="txtLabel" />
+                    <p:inputText id="txtValorMensalidade" value="#{movimentoCaixaControlador.selectedObject.valor}" styleClass="monetario" >
+                        <f:convertNumber pattern="#,###,##0.00"/>
+                    </p:inputText> 
+
+                    <h:outputText value="Data"/>
+                    <p:inputMask value="#{movimentoCaixaControlador.selectedObject.dataMovimento}" mask="99/99/9999" size="50" id="txtDataMovimento">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+
+                    <h:outputText value="Usuário" styleClass="txtLabel" />
+                    <h:outputText value="#{movimentoCaixaControlador.selectedObject.nomePessoa}" styleClass="labelBold" />
+
+                    <h:outputText value="Data da operação" styleClass="txtLabel" />
+                    <h:outputText value="#{movimentoCaixaControlador.selectedObject.createdAt}" styleClass="labelBold">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </h:panelGrid>
+            </f:validateBean>
+        </h:form>
+    </ui:define>
+</ui:composition>

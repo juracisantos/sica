@@ -39,13 +39,12 @@ public class Tabela implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "O campo Nome deve ser preechido.")
     @NotEmpty(message = "O campo Nome deve ser preechido.")   
     @Column(nullable = false, unique = true)
     private String nome;
 
-    @NotNull(message = "O campo Valor deve ser preechido.")
-    @Column(nullable = false)
+    @Column()
     private Double valor;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tabela")

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="default.css" />        
+        <h:form id="frmMandadoLista" prependId="false">
+            <h:messages/>
+            <h2>Movimento de Caixa</h2>
+
+
+            <p:panel id="pnlMovimentoCaixa">
+                <p:commandButton action="#{movimentoCaixaControlador.novo}" immediate="false"
+                                 ajax="false" value="Novo">
+                </p:commandButton>
+                <p/>
+
+            </p:panel>
+
+            <p:tabView>
+                <p:tab title="Lançamentos">
+                    <p:panel id="pnlContainer">
+                        <p:dataTable var="item" value="#{movimentoCaixaControlador.movimentos}" id="tblMovimentosCadastrados"
+                                     emptyMessage="Nenhum grupo cadastrado.">
+
+                            <p:column style="width: 30px;">
+                                <f:facet name="header">
+                                    Ações
+                                </f:facet>
+                                <h:commandButton action="#{movimentoCaixaControlador.edit()}" immediate="true"
+                                                 image="#{pageContext.request.contextPath}/resources/images/edit.gif"
+                                                 title="Editar">
+                                    <f:setPropertyActionListener target="#{movimentoCaixaControlador.selectedObject}" value="#{item}"/>
+                                </h:commandButton>                                
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">Tipo</f:facet>
+                                <h:outputText value="#{item.tipoMovimento.descricao}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">Data</f:facet>
+                                <h:outputText value="#{item.dataMovimento}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column> 
+
+                            <p:column>
+                                <f:facet name="header">Valor</f:facet>
+                                <h:outputText value="#{item.valor}">
+                                    <f:convertNumber pattern="R$ #,###,##0.00"/>
+                                </h:outputText>
+                            </p:column>                                      
+
+                        </p:dataTable>
+                    </p:panel>
+                </p:tab>
+                <p:tab title="Extrato Sintético">
+                    <p:panelGrid columns="2">
+                        <h:outputLabel value="Data:" />
+                        <h:outputLabel value="#{movimentoCaixaControlador.extratoDia.dia}"/>
+                                       
+                        <h:outputLabel value="Lançamento inicial:" />
+                        <h:outputLabel value="#{movimentoCaixaControlador.extratoDia.saldoInicial}">
+                            <f:convertNumber pattern="R$ #,###,##0.00"/>
+                        </h:outputLabel> 
+                        
+                        <h:outputLabel value="Saldo atual:" />
+                        <h:outputLabel value="#{movimentoCaixaControlador.extratoDia.saldoAtual}">
+                            <f:convertNumber pattern="R$ #,###,##0.00"/>
+                        </h:outputLabel>
+                    </p:panelGrid>
+                </p:tab>
+            </p:tabView>
+
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

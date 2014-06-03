@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        Cadastro Movimento de Caixa (Novo)
+    </ui:define>
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="default.css" />
+
+        <h2>Novo Movimento</h2>
+        <h:form prependId="false">
+            <f:validateBean> 
+                <p:messages id="msgs"  autoUpdate="true"/> 
+
+                <h:panelGrid columns="3">
+                    <p:commandButton style="height: 70px; width: 100px;" action="#{movimentoCaixaControlador.salvar()}" value="Salvar" ajax="false"/>                    
+
+                    <p:commandButton style="height: 70px; width: 100px;" immediate="true" action="#{movimentoCaixaControlador.listar()}" value="Voltar" ajax="false"/>
+
+                    <p:commandButton style="height: 80px; width: 100px;" action="#" value="Imprimir" immediate="false" process="@this" rendered="#{movimentoCaixaControlador.selectedObject.id > 0}">
+                        <p:printer target="cupom" />
+                    </p:commandButton>
+                </h:panelGrid>            
+
+                <h:panelGrid columns="2">
+
+                    <p:panel>
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Tipo" styleClass="txtLabel" />
+                            <h:selectOneMenu value="#{movimentoCaixaControlador.selectedObject.tipoMovimento}" style="width: 150px;">
+                                <f:selectItems var="item" itemLabel="#{item.descricao}" itemValue="#{item}" value="#{tipoMovimentoControl.tipoMovimentoList}" />
+                            </h:selectOneMenu>
+
+                            <h:outputText value="Valor" styleClass="txtLabel" />
+                            <p:inputText id="txtValorMensalidade" value="#{movimentoCaixaControlador.selectedObject.valor}" styleClass="monetario" >
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </p:inputText> 
+
+                            <h:outputText value="Data"/>
+                            <p:calendar id="dataMovimento" value="#{movimentoCaixaControlador.selectedObject.dataMovimento}" 
+                                        pattern="dd-MM-yyyy" mask="true" style="width: 150px;" />
+
+                            <h:outputText value="Usuário" styleClass="txtLabel" />
+                            <h:outputText value="#{movimentoCaixaControlador.selectedObject.nomePessoa}" styleClass="labelBold" />
+
+                            <h:outputText value="Data da operação" styleClass="txtLabel" />
+                            <h:outputText value="#{movimentoCaixaControlador.selectedObject.createdAt}" styleClass="labelBold">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"/>
+                            </h:outputText>
+                        </h:panelGrid>
+                    </p:panel>
+
+                    <p:panel header="Informações para Imprimir" style="width:100%; height: 100%" rendered="#{movimentoCaixaControlador.selectedObject.id > 0}">
+                        <h:panelGrid columns="2" id="cupom">
+                            <p:outputLabel value="Tipo movimento:" />
+                            <h:outputText value="#{movimentoCaixaControlador.selectedObject.tipoMovimento.descricao}"/>
+
+                            <h:outputText value="Valor:"/>
+                            <p:outputLabel value="#{movimentoCaixaControlador.selectedObject.valor}">
+                                <f:convertNumber pattern="R$ #,###,##0.00"/>
+                            </p:outputLabel> 
+
+                            <h:outputText value="Data informada:"/>
+                            <p:outputLabel value="#{movimentoCaixaControlador.selectedObject.dataMovimento}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Operador:"/>
+                            <p:outputLabel value="#{movimentoCaixaControlador.selectedObject.nomePessoa}" />
+
+                            <h:outputText value="Data operação:"/>
+                            <p:outputLabel value="#{movimentoCaixaControlador.selectedObject.createdAt}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                            </p:outputLabel>
+                            
+                            <h:outputText value="Saldo inicial:"/>
+                            <p:outputLabel value="#{movimentoCaixaControlador.extratoDia.saldoInicial}" >
+                                <f:convertNumber pattern="R$ #,###,##0.00"/>
+                            </p:outputLabel>
+                            
+                            <h:outputText value="Saldo alterior:"/>
+                            <p:outputLabel value="#{movimentoCaixaControlador.extratoDia.saldoAtual - movimentoCaixaControlador.selectedObject.valor}" >
+                                <f:convertNumber pattern="R$ #,###,##0.00"/>
+                            </p:outputLabel>
+                            
+                            <h:outputText value="Saldo atual:"/>
+                            <p:outputLabel value="#{movimentoCaixaControlador.extratoDia.saldoAtual}" >
+                                <f:convertNumber pattern="R$ #,###,##0.00"/>
+                            </p:outputLabel>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:panelGrid>
+            </f:validateBean>
+        </h:form>
+    </ui:define>
+</ui:composition>

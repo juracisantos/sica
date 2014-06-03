@@ -15,100 +15,167 @@
         <h:form id="frmTabela" prependId="false">
             <f:validateBean> 
                 <p:messages id="msgs"  autoUpdate="true"/>                
-                <p:hotkey bind="F1" update="frmTabela" action="#{acessoControlador.calcularTroco()}" immediate="false"/>
-                <p:panel style="width:100%; height: 100%">
-                    <h:panelGrid columns="2">
+                <p:hotkey bind="Ctrl+Z" update="frmTabela" action="#{acessoControlador.consultarCartao()}" immediate="false"/>
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="2">                        
+                        <h:outputText value="Cartão"/>
+                        <p:inputText value="#{acessoControlador.selectedObject.cartao}" size="30" />                                                                               
 
-                        <h:panelGrid columns="2">
-                            <h:outputText value="Cartão"/>
-                            <p:inputText value="#{acessoControlador.selectedObject.cartao}" size="40" />                                                                               
+                        <h:outputText value="Tabela" rendered="#{acessoControlador.pessoa == null}"/>
+                        <h:selectOneMenu id="tabelaId" value="#{acessoControlador.selectedObject.tabela}" title="Tabela" rendered="#{acessoControlador.pessoa == null}">
+                            <f:selectItems value="#{tabelaControlador.tabelasSelectOne}"/>
+                        </h:selectOneMenu>
 
-                            <h:outputText value="Tabela"/>
-                            <h:selectOneMenu id="tabelaId" value="#{acessoControlador.selectedObject.tabela}" title="Tabela" >
-                                <f:selectItems value="#{tabelaControlador.tabelasSelectOne}"/>
-                            </h:selectOneMenu>
+                        <h:outputText value="Desconto" rendered="#{acessoControlador.pessoa == null}"/>
+                        <p:inputText value="#{acessoControlador.selectedObject.desconto}" id="txtDesconto" size="30" rendered="#{acessoControlador.pessoa == null}">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText> 
 
-                            <h:outputText value="Desconto"/>
-                            <p:inputText value="#{acessoControlador.selectedObject.desconto}" id="txtDesconto" size="40">
-                                <f:convertNumber pattern="#,###,##0.00"/>
-                            </p:inputText> 
+                        <h:outputText value="Valor recebido" rendered="#{acessoControlador.pessoa == null}"/>
+                        <p:inputText value="#{acessoControlador.selectedObject.valorRecebido}" id="txtValorRecebido" styleClass="monetario" size="30" rendered="#{acessoControlador.pessoa == null}">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>                         
 
-                            <h:outputText value="Valor recebido"/>
-                            <p:inputText value="#{acessoControlador.selectedObject.valorRecebido}" id="txtValorRecebido" size="40">
-                                <f:convertNumber pattern="#,###,##0.00"/>
-                            </p:inputText>                         
-
-                            <h:outputText value="Placa do veículo"/>
-                            <p:inputText value="#{acessoControlador.selectedObject.placaVeiculo}" size="40" />
-
-                            <p:defaultCommand target="btnConsultar" />
-                            <h:panelGrid columns="3">                                                               
-                                <p:commandButton style="height: 80px; width: 100px;" action="#{acessoControlador.consultarCartao()}"  value="Consultar" id="btnConsultar" immediate="false" ajax="false"/>                
-                                <p:commandButton style="height: 80px; width: 100px;" action="#{acessoControlador.calcularTroco()}"  value="Calcular troco" immediate="false" ajax="false"/>  
-                                <p:commandButton style="height: 80px; width: 100px;" action="#{acessoControlador.salvar()}" value="Imprimir">
-                                    <p:printer target="cupom" />
-                                </p:commandButton>
-                            </h:panelGrid>
+                        <h:outputText value="Placa do veículo" rendered="#{acessoControlador.pessoa == null}"/>
+                        <p:inputText value="#{acessoControlador.selectedObject.placaVeiculo}" size="40" rendered="#{acessoControlador.pessoa == null}"/>
 
 
-                        </h:panelGrid>
 
-                        <p:panel header="Informações para Imprimir" style="width:100%; height: 100%">
-                            <h:panelGrid columns="2" id="cupom">
-                                <h:outputText value="Entrada"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.entrada}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
-                                </p:outputLabel>
 
-                                <h:outputText value="Saída"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.registroSaida}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
-                                </p:outputLabel>
+                        <h:outputText value="Nome do Mensalista:" rendered="#{acessoControlador.pessoa != null}"/>
+                        <h:outputText id="pessoaNome" value="#{acessoControlador.pessoa.nome}" rendered="#{acessoControlador.pessoa != null}"/>
 
-                                <h:outputText value="Permanência"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.permancencia}" >                        
-                                </p:outputLabel>
-                                
-                                <h:outputText value="Limite para sair"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.limiteParaSair}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
-                                </p:outputLabel>
+                        <h:outputText value="CPF:" rendered="#{acessoControlador.pessoa != null}"/>
+                        <h:outputText id="pessoaCPF" value="#{acessoControlador.pessoa.cpf}" rendered="#{acessoControlador.pessoa != null}"/>
 
-                                <h:outputText value="Valor cobrado"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.valorCobrado}">
-                                    <f:convertNumber pattern="#,###,##0.00"/>
-                                </p:outputLabel>                                  
+                        <h:outputText value="Quantidade de Cartões:" rendered="#{acessoControlador.pessoa != null}"/>
+                        <h:outputText id="pessoaQtdCartoes" value="#{acessoControlador.pessoa.qtdVeiculos}" rendered="#{acessoControlador.pessoa != null}"/>
 
-                                <h:outputText value="Desconto"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.desconto}">
-                                    <f:convertNumber pattern="#,###,##0.00"/>
-                                </p:outputLabel> 
+                        <h:outputText value="Tipo:" styleClass="txtLabel" rendered="#{acessoControlador.pessoa != null}"/>
+                        <h:outputText id="movimentoTipo" value="#{acessoControlador.movimentoCaixa.tipoMovimento.descricao}" rendered="#{acessoControlador.pessoa != null}"/>
 
-                                <h:outputText value="Valor cobrado"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.valorAReceber}">
-                                    <f:convertNumber pattern="#,###,##0.00"/>
-                                </p:outputLabel>
+                        <h:outputText value="Valor:" styleClass="txtLabel" rendered="#{acessoControlador.pessoa != null}"/>
+                        <p:outputLabel id="txtValorMensalidade" value="#{acessoControlador.movimentoCaixa.valor}" styleClass="monetario" rendered="#{acessoControlador.pessoa != null}">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:outputLabel>
 
-                                <h:outputText value="Valor a receber"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.valorRecebido}">
-                                    <f:convertNumber pattern="#,###,##0.00"/>
-                                </p:outputLabel>
+                        <h:outputText value="Desconto" rendered="#{acessoControlador.pessoa != null}" />
+                        <p:inputText value="#{acessoControlador.movimentoCaixa.desconto}" id="txtDescontoMensalista" size="40" rendered="#{acessoControlador.pessoa != null}">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText> 
 
-                                <h:outputText value="Troco"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.troco}" id="txtTroco" >
-                                    <f:convertNumber pattern="#,###,##0.00"/>
-                                </p:outputLabel>
+                        <h:outputText value="Valor recebido" rendered="#{acessoControlador.pessoa != null}"/>
+                        <p:inputText value="#{acessoControlador.selectedObject.valorRecebido}" id="txtValorRecebidoMensalista" size="40" rendered="#{acessoControlador.pessoa != null}">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>                                                
 
-                                <h:outputText value="Placa do veículo"/>
-                                <p:outputLabel value="#{acessoControlador.selectedObject.placaVeiculo}" />
-                            </h:panelGrid>
-                        </p:panel>
+                        <h:outputText value="Operador:" styleClass="txtLabel" rendered="#{acessoControlador.pessoa != null}"/>
+                        <h:outputText value="#{acessoControlador.movimentoCaixa.nomePessoa}" styleClass="labelBold" rendered="#{acessoControlador.pessoa != null}"/>
+
+                        <h:outputText value="Data da operação" styleClass="txtLabel" rendered="#{acessoControlador.pessoa != null}"/>
+                        <h:outputText value="#{acessoControlador.movimentoCaixa.createdAt}" styleClass="labelBold" rendered="#{acessoControlador.pessoa != null}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"/>
+                        </h:outputText>
+
+                        <p:defaultCommand target="btnConsultar" />
+                        <h:panelGrid columns="3">                                                               
+                            <p:commandButton style="height: 80px; width: 100px;" action="#{acessoControlador.consultarCartao()}"  value="Consultar" id="btnConsultar" immediate="false"  ajax="false"/>                
+                            <p:commandButton style="height: 80px; width: 100px;" action="#{acessoControlador.salvar()}"  value="Confirmar" immediate="false" ajax="false"/>  
+                            <p:commandButton style="height: 80px; width: 100px;" action="#" value="Imprimir" immediate="false" process="@this">
+                                <p:printer target="cupom" />
+                            </p:commandButton>
+                        </h:panelGrid>                          
                     </h:panelGrid>
 
-                    <f:facet name="footer">
+                    <p:panel id="pnlImprimeAcesso" header="Informações para Imprimir" style="width:100%; height: 100%">                       
+                        <h:panelGrid columns="2" id="cupom" rendered="#{acessoControlador.pessoa == null}">
 
-                    </f:facet>
-                </p:panel>
+                            <p:outputLabel value="Entrada" />
+                            <p:outputLabel value="#{acessoControlador.selectedObject.entrada}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Saída"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.registroSaida}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Permanência"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.permancencia}" />                              
+
+                            <h:outputText value="Limite para sair"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.limiteParaSair}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Valor cobrado"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.valorCobrado}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </p:outputLabel>                                  
+
+                            <h:outputText value="Desconto"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.desconto}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </p:outputLabel> 
+
+                            <h:outputText value="Valor a receber"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.valorAReceber}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Valor a recebido"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.valorRecebido}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Troco"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.troco}" id="txtTroco">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Placa do veículo"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.placaVeiculo}"/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2" rendered="#{acessoControlador.pessoa != null}">  
+                            <h:outputText value="CPF - Mensalista:"/>
+                            <h:outputText value="#{acessoControlador.pessoa.cpf}"/>
+
+                            <p:outputLabel value="Tipo movimento:"/>
+                            <h:outputText value="#{acessoControlador.movimentoCaixa.tipoMovimento.descricao}"/>
+
+                            <h:outputText value="Valor:"/>
+                            <p:outputLabel value="#{acessoControlador.movimentoCaixa.valor}">
+                                <f:convertNumber pattern="R$ #,###,##0.00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Desconto:"/>
+                            <p:outputLabel value="#{acessoControlador.movimentoCaixa.desconto}">
+                                <f:convertNumber pattern="R$ #,###,##0.00"/>
+                            </p:outputLabel>
+
+                            <h:outputText value="Pago:"/>
+                            <p:outputLabel value="#{acessoControlador.movimentoCaixa.valorAReceber}">
+                                <f:convertNumber pattern="R$ #,###,##0.00"/>
+                            </p:outputLabel> 
+
+                            <h:outputText value="Operador:"/>
+                            <p:outputLabel value="#{acessoControlador.movimentoCaixa.nomePessoa}"/>
+
+                            <h:outputText value="Data operação:"/>
+                            <p:outputLabel value="#{acessoControlador.movimentoCaixa.createdAt}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                            </p:outputLabel>
+                            
+                            <h:outputText value="Próximo vencimento"/>
+                            <p:outputLabel value="#{acessoControlador.pessoa.veiculos.get(0).dataVencimento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                            </p:outputLabel>
+                            
+                        </h:panelGrid>
+                    </p:panel>
+
+                </h:panelGrid>
 
             </f:validateBean>
         </h:form>

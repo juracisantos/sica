@@ -40,6 +40,9 @@ public class Pessoa implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Transient
+    private Integer qtdVeiculos;
+
     @Size(max = 255)
     @Column(name = "cpf", unique = true)
     private String cpf;
@@ -59,7 +62,7 @@ public class Pessoa implements Serializable {
     private Date updatedAt;
 
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     private Endereco endereco;
 
     @OneToMany(mappedBy = "pessoa", targetEntity = Veiculo.class, cascade = CascadeType.ALL)
@@ -80,12 +83,12 @@ public class Pessoa implements Serializable {
         this.getTelefones().add(f);
         f.setPessoa(this);
     }
-    
+
     public void addVeidulo(Veiculo v) {
         this.getVeiculos().add(v);
         v.setPessoa(this);
     }
-    
+
     public List<Veiculo> getVeiculos() {
         return veiculos;
     }
@@ -176,6 +179,14 @@ public class Pessoa implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Integer getQtdVeiculos() {        
+        return this.veiculos.size();
+    }
+
+    public void setQtdVeiculos(Integer qtdVeiculos) {
+        this.qtdVeiculos = qtdVeiculos;
     }
 
     @Override

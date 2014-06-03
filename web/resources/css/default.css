@@ -95,3 +95,12 @@ a:link:hover, a:visited:hover  {
 .inputGrid {
     width: 100%;
 }
+
+.labelBold {
+    font-family: Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    font-size:  18px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 6px;
+    color: #6D6D6D;
+}
