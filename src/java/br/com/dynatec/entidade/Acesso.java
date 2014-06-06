@@ -203,7 +203,12 @@ public class Acesso implements Serializable {
     }
 
     public Double getTroco() {
-        return this.getValorRecebido() - this.getValorAReceber();
+        if (this.getValorRecebido() != 0) {
+            return this.getValorRecebido() - this.getValorAReceber();
+        } else {
+            return 0.0d;
+        }
+            
     }
 
     public void setTroco(Double troco) {

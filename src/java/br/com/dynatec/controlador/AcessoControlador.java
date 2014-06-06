@@ -115,7 +115,7 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
             }
             return null;
         } catch (Exception ex) {
-            UtilFaces.addErrorMessage(ex.getLocalizedMessage());
+            UtilFaces.addErrorMessage(ex.getMessage());
             ex.printStackTrace();
             return null;
         }

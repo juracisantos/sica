@@ -32,7 +32,7 @@
                         </p:inputText> 
 
                         <h:outputText value="Valor recebido" rendered="#{acessoControlador.pessoa == null}"/>
-                        <p:inputText value="#{acessoControlador.selectedObject.valorRecebido}" id="txtValorRecebido" styleClass="monetario" size="30" rendered="#{acessoControlador.pessoa == null}">
+                        <p:inputText value="#{acessoControlador.selectedObject.valorRecebido}" id="txtValorRecebido" size="30" rendered="#{acessoControlador.pessoa == null}">
                             <f:convertNumber pattern="#,###,##0.00"/>
                         </p:inputText>                         
 

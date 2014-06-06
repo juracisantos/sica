@@ -8,8 +8,11 @@ package br.com.dynatec.entidade;
 import br.com.dynantec.type.StatusPresencaCarro;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +22,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -85,6 +89,9 @@ public class Veiculo implements Serializable {
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
+
+    @OneToMany(mappedBy = "veiculo", targetEntity = VeiculoLogStatusPreseca.class, cascade = CascadeType.ALL)
+    private final List<VeiculoLogStatusPreseca> logsStatusPresenca = new LinkedList<>();
 
     public Veiculo() {
         this.cartaoMestre = false;
@@ -180,6 +187,10 @@ public class Veiculo implements Serializable {
 
     public void setLiberado_ate(Date liberado_ate) {
         this.liberado_ate = liberado_ate;
+    }
+
+    public List<VeiculoLogStatusPreseca> getLogsStatusPresenca() {
+        return logsStatusPresenca;
     }
 
     @Override

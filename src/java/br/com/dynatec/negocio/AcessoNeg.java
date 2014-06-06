@@ -47,12 +47,17 @@ public class AcessoNeg {
         return this.pessoaNeg.findByCartao(cartao);
     }
     
-    public Acesso consultarECalcular(Acesso e) {        
+    public Acesso consultarECalcular(Acesso e) throws Exception {        
         Acesso acesso = acessoDao.find_by_numero_cartao(e.getCartao());
 
         if (acesso != null) {
             acesso.setTabela(e.getTabela());
             acesso.setRegistroSaida(new Date());
+            
+            if (acesso.getTabela() == null) {
+                throw new Exception("Cadatre pelo menos uma tabela com regras para cobrança.");
+            }
+            
             acesso = calcular(acesso);
         }
 

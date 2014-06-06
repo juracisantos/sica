@@ -23,4 +23,18 @@ public class CartaoNeg {
     public Veiculo salvar(Veiculo e) throws Exception {
         return this.cartaoDao.salvar(e);
     }
+    
+    public Veiculo getVeiculo(String cartao) {
+        return this.cartaoDao.getVeiculo(cartao);
+    }
+    
+    public boolean teveAlteracaoStatusPresencaCarro(Veiculo veiculoMem) {
+        Veiculo veiculoDB = this.getVeiculo(veiculoMem.getCartao());
+
+        if (veiculoDB == null) {
+            return true;
+        } else {
+            return veiculoDB.getStatus() == veiculoMem.getStatus();
+        }
+    }
 }

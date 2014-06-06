@@ -25,4 +25,8 @@ public class CartaoDao extends PersistenciaJpa {
     public Veiculo salvar(Veiculo e) throws Exception {
         return save(Veiculo.class, e);
     }
+    
+    public Veiculo getVeiculo(String cartao) {
+      return find(Veiculo.class, "select e from Veiculo e where e.cartao = 1?", cartao);        
+    }
 }
