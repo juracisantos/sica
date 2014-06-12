@@ -193,7 +193,7 @@ public class MovimentoCaixa implements Serializable {
     }
 
     public Double getValorRecebido() {
-        return valorRecebido == null ? 0.0d : valorRecebido;
+        return this.valorRecebido == null ? 0.0d : this.valorRecebido;
     }
 
     public void setValorRecebido(Double valorRecebido) {
@@ -201,7 +201,7 @@ public class MovimentoCaixa implements Serializable {
     }
 
     public Double getTroco() {
-        return this.getValorRecebido() - this.getValor();
+        return this.getValorRecebido() - this.getValorAReceber();
     }
 
     public void setTroco(Double troco) {

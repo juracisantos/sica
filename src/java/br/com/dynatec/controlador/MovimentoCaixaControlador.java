@@ -53,6 +53,7 @@ public class MovimentoCaixaControlador extends BaseControlador<MovimentoCaixa> i
 
     public String salvar() {
         try {
+            getSelectedObject().setDataMovimento(this.dataDia);
             this.negocio.salvar(getSelectedObject());
             this.extratoDia = this.negocio.extratoDiaSintetico(this.getSelectedObject().getDataMovimento());
             return null;

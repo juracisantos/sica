@@ -53,6 +53,9 @@
                             <h:outputText value="#{movimentoCaixaControlador.selectedObject.createdAt}" styleClass="labelBold">
                                 <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"/>
                             </h:outputText>
+                            
+                            <h:outputText value="Observação:" styleClass="txtLabel" />
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{movimentoCaixaControlador.selectedObject.observacao}" width="600" />
                         </h:panelGrid>
                     </p:panel>
 

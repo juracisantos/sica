@@ -18,11 +18,11 @@ public class TelefoneEmail implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    @NotNull
+    @NotNull(message = "O tipo contato deve ser informado.")
     @Enumerated(EnumType.STRING)
     private FoneEmail tipo = FoneEmail.FIXO;
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "A informação valor no contato não pode ser vazio.")
+    @NotEmpty(message = "A informação valor no contato não pode ser vazio.")
     @Column(length = 150)
     private String numero;
     @Column(length = 150)

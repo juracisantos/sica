@@ -2,11 +2,7 @@ package br.com.dynatec.negocio;
 
 import br.com.dynatec.entidade.Endereco;
 import br.com.dynatec.entidade.Pessoa;
-import br.com.dynatec.entidade.TelefoneEmail;
-import br.com.dynatec.entidade.Veiculo;
-import br.com.dynatec.entidade.VeiculoLogStatusPreseca;
 import br.com.dynatec.persistencia.PessoaDao;
-import java.util.Date;
 import java.util.List;
 
 public class PessoaNeg {
@@ -18,7 +14,7 @@ public class PessoaNeg {
         Pessoa pessoa = new Pessoa();
         
         pessoa.setEndereco(new Endereco());
-        pessoa.addTelefone(new TelefoneEmail());               
+//        pessoa.addTelefone(new TelefoneEmail());               
 //        pessoa.addVeiculo(new Veiculo());                
         
         return pessoa;

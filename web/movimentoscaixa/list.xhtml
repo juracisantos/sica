@@ -63,7 +63,9 @@
                 <p:tab title="Extrato Sintético">
                     <p:panelGrid columns="2">
                         <h:outputLabel value="Data:" />
-                        <h:outputLabel value="#{movimentoCaixaControlador.extratoDia.dia}"/>
+                        <h:outputLabel value="#{movimentoCaixaControlador.extratoDia.dia}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                        </h:outputLabel>
                                        
                         <h:outputLabel value="Lançamento inicial:" />
                         <h:outputLabel value="#{movimentoCaixaControlador.extratoDia.saldoInicial}">

@@ -38,7 +38,7 @@ public class AcessoNeg {
         e.setLiberado(Boolean.TRUE);
         return acessoDao.salvar(e);
     }
-    
+        
     public Pessoa salvarPessoa(Pessoa p) throws Exception {
         return this.pessoaNeg.salvar(p);
     }

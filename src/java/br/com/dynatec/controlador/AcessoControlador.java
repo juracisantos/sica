@@ -59,26 +59,24 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
 
     public String novo() {
         this.dataTrandacaoFinanceira = new Date();
-        Acesso acesso = new Acesso();
-        acesso.setDataTransacaoFinaceira(this.dataTrandacaoFinanceira);
-        acesso.setTabela(this.tabelaSelecionada);
-        this.setSelectedObject(acesso);
+        this.addNovoAcesso();
 
         return "/acessos/add.jsf";
     }
 
     public String salvar() {
         try {
-            if (this.pessoa == null) {
-                this.tabelaSelecionada = getSelectedObject().getTabela();
-                
-                this.negocio.salvar(getSelectedObject());
-            } else {
+            if (this.pessoa != null) {
                 this.movimentoCaixa.setMensalisa(Boolean.TRUE);
                 this.movimentoCaixa.setDataMovimento(new Date());
                 this.movimentoCaixaNeg.salvar(movimentoCaixa);
+
                 this.negocio.salvarPessoa(pessoa);
             }
+            this.tabelaSelecionada = getSelectedObject().getTabela();
+            this.getSelectedObject().setDataTransacaoFinaceira(this.dataTrandacaoFinanceira);
+
+            this.negocio.salvar(getSelectedObject());
             return null;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -99,10 +97,10 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
                 this.movimentoCaixa.setUsuario_id(Integer.valueOf(session.getAttribute("usuario_id").toString()));
                 this.movimentoCaixa.setValor(pessoa.getVeiculos().get(0).getValorMensalidade());
                 this.movimentoCaixa.setMensalisa(Boolean.TRUE);
-                 
+
                 List<Configuracao> configuracoes = configuracaoNeg.findAll();
                 Integer diasIncrementar = configuracoes == null ? 0 : configuracoes.get(0).getToleranciaMensalista();
-                                
+
                 Date vencimento = UtilDateTime.proximoMesPassandoDia(this.pessoa.getVeiculos().get(0).getDataVencimento());
                 Date liberadoAte = UtilDateTime.incrementarDiasData(vencimento, diasIncrementar);
                 this.pessoa.getVeiculos().get(0).setLiberado_ate(liberadoAte);
@@ -110,6 +108,7 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
             } else {
                 setSelectedObject(this.negocio.consultarECalcular(getSelectedObject()));
                 if (getSelectedObject() == null) {
+                    this.addNovoAcesso();
                     UtilFaces.addErrorMessage("Cartão não encontrado.");
                 }
             }
@@ -155,5 +154,12 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
 
     public void setExtratoDia(ExtratoDiario extratoDia) {
         this.extratoDia = extratoDia;
+    }
+
+    private void addNovoAcesso() {
+        Acesso acesso = new Acesso();
+        acesso.setDataTransacaoFinaceira(this.dataTrandacaoFinanceira);
+        acesso.setTabela(this.tabelaSelecionada);
+        this.setSelectedObject(acesso);
     }
 }
