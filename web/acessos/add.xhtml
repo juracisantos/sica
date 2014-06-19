@@ -16,8 +16,8 @@
             <p:hotkey bind="alt+n" update="frmTabela" action="#{acessoControlador.consultarCartao()}" immediate="false"/>
             <p:hotkey bind="f3" update="frmTabela" action="#{acessoControlador.consultarCartao()}" immediate="false"/>
             <p:hotkey bind="F2"
-               handler="alert('do F2')">
-             </p:hotkey>
+                      handler="alert('do F2')">
+            </p:hotkey>
             <f:validateBean> 
                 <p:messages id="msgs"  autoUpdate="true"/>                                
                 <h:panelGrid columns="2">
@@ -31,7 +31,7 @@
                         </h:selectOneMenu>
 
                         <h:outputText value="Desconto" rendered="#{acessoControlador.pessoa == null}"/>
-                        <p:inputText value="#{acessoControlador.selectedObject.desconto}" id="txtDesconto" size="30" rendered="#{acessoControlador.pessoa == null}">
+                        <p:inputText value="#{acessoControlador.selectedObject.descontoAtual}" id="txtDesconto" size="30" rendered="#{acessoControlador.pessoa == null}">
                             <f:convertNumber pattern="#,###,##0.00"/>
                         </p:inputText> 
 
@@ -81,9 +81,10 @@
                         <p:defaultCommand target="btnConsultar" />
                         <h:panelGrid columns="3">                                                               
                             <p:commandButton style="height: 80px; width: 100px;" action="#{acessoControlador.consultarCartao()}"  value="Consultar" id="btnConsultar" immediate="false"  ajax="false"/>                
-                            <p:commandButton style="height: 80px; width: 100px;" action="#{acessoControlador.salvar()}"  value="Confirmar" immediate="false" ajax="false"/>  
-                            <p:commandButton rendered="#{acessoControlador.selectedObject.id != null}" style="height: 80px; width: 100px;" action="#" value="Imprimir" immediate="false" process="@this">
-                                <p:printer target="cupom" />
+                            <p:commandButton rendered="#{(acessoControlador.registraSaida)}" style="height: 80px; width: 100px;" action="#{acessoControlador.salvar}"  value="Confirmar" immediate="false" ajax="false"/>  
+                            <p:commandButton rendered="#{(acessoControlador.registraPeriodoAdicional)}" style="height: 80px; width: 100px;" action="#{acessoControlador.salvarPeriodoAdicional}"  value="Confirma Periodo Adicional" immediate="false" ajax="false"/>  
+                            <p:commandButton rendered="#{acessoControlador.selectedObject.liberado}" style="height: 80px; width: 100px;" action="#" value="Imprimir" immediate="false" process="@this">
+                                <p:printer target="cupom" />                                
                             </p:commandButton>
                         </h:panelGrid>                          
                     </h:panelGrid>
@@ -114,8 +115,13 @@
                                 <f:convertNumber pattern="#,###,##0.00"/>
                             </p:outputLabel>                                  
 
+                            <h:outputText value="Valor já pago"/>
+                            <p:outputLabel value="#{acessoControlador.selectedObject.ultimoValorPago}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </p:outputLabel> 
+                            
                             <h:outputText value="Desconto"/>
-                            <p:outputLabel value="#{acessoControlador.selectedObject.desconto}">
+                            <p:outputLabel value="#{acessoControlador.selectedObject.descontoAcumulado}">
                                 <f:convertNumber pattern="#,###,##0.00"/>
                             </p:outputLabel> 
 
@@ -124,7 +130,7 @@
                                 <f:convertNumber pattern="#,###,##0.00"/>
                             </p:outputLabel>
 
-                            <h:outputText value="Valor a recebido"/>
+                            <h:outputText value="Valor recebido"/>
                             <p:outputLabel value="#{acessoControlador.selectedObject.valorRecebido}">
                                 <f:convertNumber pattern="#,###,##0.00"/>
                             </p:outputLabel>

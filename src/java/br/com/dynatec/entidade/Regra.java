@@ -51,8 +51,7 @@ public class Regra implements Serializable {
     @Column(nullable = false)
     private Integer intervaloMinuto;
 
-    @NotNull(message = "O campo valor deve ser informado")
-    @Column(nullable = false)
+    @Column()
     private Double valor;
 
     @JoinColumn(referencedColumnName = "id", name = "tabela_id")
@@ -92,7 +91,7 @@ public class Regra implements Serializable {
     }
 
     public Double getValor() {
-        return valor;
+        return this.valor == null ? 0.0d : this.valor;
     }
 
     public void setValor(Double valor) {

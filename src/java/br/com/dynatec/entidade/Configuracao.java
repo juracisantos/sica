@@ -55,7 +55,7 @@ public class Configuracao implements Serializable {
     }
 
     public Integer getTolerancia() {
-        return tolerancia;
+        return (tolerancia == 0 || tolerancia == null) ? 0 : tolerancia;
     }
 
     public void setTolerancia(Integer tolerancia) {

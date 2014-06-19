@@ -70,11 +70,23 @@ public class Acesso implements Serializable {
     @Column
     private Double valorCobrado;
 
-    @Column
-    private Double desconto;
+    @Column(name = "desconto")
+    private Double descontoAtual;
 
     @Transient
     private Double valorRecebido;
+
+    @Column(name = "ultimo_valor_pago")
+    private Double ultimoValorPago;
+
+    @Column(name = "ultimo_desconto_dado")
+    private Double ultimoDescontoDado;
+
+    @Transient
+    private Double descontoAcumulado;
+    
+    @Transient
+    private Double totalPago;
 
     @Transient
     private Double valorAReceber;
@@ -147,7 +159,7 @@ public class Acesso implements Serializable {
     }
 
     public Double getValorCobrado() {
-        return valorCobrado;
+        return valorCobrado == null ? 0.0d : valorCobrado;
     }
 
     public void setValorCobrado(Double valorCobrado) {
@@ -162,12 +174,12 @@ public class Acesso implements Serializable {
         this.placaVeiculo = placaVeiculo;
     }
 
-    public Double getDesconto() {
-        return desconto == null ? 0.0d : this.desconto;
+    public Double getDescontoAtual() {
+        return descontoAtual == null ? 0.0d : this.descontoAtual;
     }
 
-    public void setDesconto(Double desconto) {
-        this.desconto = desconto;
+    public void setDescontoAtual(Double descontoAtual) {
+        this.descontoAtual = descontoAtual;
     }
 
     public Usuario getUsuarioRegistrouEntrada() {
@@ -208,7 +220,7 @@ public class Acesso implements Serializable {
         } else {
             return 0.0d;
         }
-            
+
     }
 
     public void setTroco(Double troco) {
@@ -233,7 +245,7 @@ public class Acesso implements Serializable {
 
     public Double getValorAReceber() {
         if (this.valorCobrado != null) {
-            return this.getValorCobrado() - this.getDesconto();
+            return this.getValorCobrado() - this.getUltimoDescontoDado() - this.getUltimoValorPago() - this.getDescontoAtual();
         } else {
             return 0.0d;
         }
@@ -244,6 +256,10 @@ public class Acesso implements Serializable {
     }
 
     public Boolean isLiberado() {
+        return liberado;
+    }
+
+    public Boolean getLiberado() {
         return liberado;
     }
 
@@ -266,6 +282,38 @@ public class Acesso implements Serializable {
     public void setDataTransacaoFinaceira(Date dataTransacaoFinaceira) {
         this.dataTransacaoFinaceira = dataTransacaoFinaceira;
     }
+
+    public Double getUltimoValorPago() {
+        return ultimoValorPago == null ? 0.0d : ultimoValorPago;
+    }
+
+    public void setUltimoValorPago(Double ultimoValorPago) {
+        this.ultimoValorPago = ultimoValorPago;
+    }
+
+    public Double getDescontoAcumulado() {
+        return this.getDescontoAtual() + this.getUltimoDescontoDado();
+    }
+
+    public void setDescontoAcumulado(Double descontoAcumulado) {
+        this.descontoAcumulado = descontoAcumulado;
+    }
+
+    public Double getUltimoDescontoDado() {
+        return ultimoDescontoDado == null ? 0.0d : ultimoDescontoDado;
+    }
+
+    public void setUltimoDescontoDado(Double ultimoDescontoDado) {
+        this.ultimoDescontoDado = ultimoDescontoDado;
+    }
+
+    public Double getTotalPago() {
+        return this.getValorAReceber();
+    }
+
+    public void setTotalPago(Double totalPago) {
+        this.totalPago = totalPago;
+    }    
 
     @Override
     public int hashCode() {

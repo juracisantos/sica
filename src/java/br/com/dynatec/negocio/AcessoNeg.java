@@ -1,6 +1,7 @@
 package br.com.dynatec.negocio;
 
 import br.com.dynatec.entidade.Acesso;
+import br.com.dynatec.entidade.Configuracao;
 import br.com.dynatec.entidade.Pessoa;
 import br.com.dynatec.entidade.Regra;
 import br.com.dynatec.persistencia.AcessoDao;
@@ -12,10 +13,12 @@ public class AcessoNeg {
 
     private final AcessoDao acessoDao;
     private final PessoaNeg pessoaNeg;
+    private final ConfiguracaoNeg configuracaoNeg;
 
     public AcessoNeg() {
         this.acessoDao = new AcessoDao();
         this.pessoaNeg = new PessoaNeg();
+        this.configuracaoNeg = new ConfiguracaoNeg();
     }
 
     public Acesso find_by_numero_cartao(String cartao) {
@@ -34,6 +37,13 @@ public class AcessoNeg {
         return this.acessoDao.find(id);
     }
 
+    public Acesso salvarPeriodoAdicional(Acesso e) throws Exception {
+        e.setLiberado(Boolean.TRUE);
+        Double valorCobrado = e.getValorCobrado();
+        e.setValorCobrado(valorCobrado);
+        return acessoDao.salvar(e);
+    }
+    
     public Acesso salvar(Acesso e) throws Exception {
         e.setLiberado(Boolean.TRUE);
         return acessoDao.salvar(e);
@@ -48,19 +58,26 @@ public class AcessoNeg {
     }
     
     public Acesso consultarECalcular(Acesso e) throws Exception {        
-        Acesso acesso = acessoDao.find_by_numero_cartao(e.getCartao());
-
+        Acesso acesso;
+        acesso = acessoDao.find_by_numero_cartao(e.getCartao());
+        acesso.setUltimoValorPago(acesso.getValorAReceber()+acesso.getUltimoValorPago());
+        acesso.setUltimoDescontoDado(acesso.getDescontoAtual()+acesso.getUltimoDescontoDado());
+        acesso.setDescontoAtual(0.0d);
+        
         if (acesso != null) {
             acesso.setTabela(e.getTabela());
             acesso.setRegistroSaida(new Date());
+            //acesso.setUltimoValorPago(acesso.getValorCobrado() - acesso.getDesconto());
             
             if (acesso.getTabela() == null) {
-                throw new Exception("Cadatre pelo menos uma tabela com regras para cobrança.");
+                throw new Exception("Cadastre pelo menos uma tabela com regras para cobrança.");
             }
             
+            if (acesso.getSaida() != null) {
+                throw new Exception("Cartão já utilizado, registro da saída as " + UtilDateTime.dateTimeToString(acesso.getSaida()));
+            }            
             acesso = calcular(acesso);
         }
-
         return acesso;
     }
 
@@ -97,12 +114,16 @@ public class AcessoNeg {
         }
 
         Date limiteParaSair = somaHora(acesso.getEntrada(), minAcumulados);
+        
+        Configuracao conf = this.configuracaoNeg.findByDescricao("Padrão");
+        limiteParaSair = somaHora(limiteParaSair, conf.getTolerancia());
 
         acesso.setValorCobrado(valor);
         acesso.setLimiteParaSair(limiteParaSair);
 
         String permaneceu = UtilDateTime.minToHora(permancencia);
         acesso.setPermancencia(permaneceu);
+                
         return acesso;
     }
 
