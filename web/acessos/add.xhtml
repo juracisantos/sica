@@ -41,7 +41,7 @@
                         </p:inputText>                         
 
                         <h:outputText value="Placa do veículo" rendered="#{acessoControlador.pessoa == null}"/>
-                        <p:inputText value="#{acessoControlador.selectedObject.placaVeiculo}" size="40" rendered="#{acessoControlador.pessoa == null}"/>
+                        <p:inputText value="#{acessoControlador.selectedObject.placaVeiculo}" size="30" rendered="#{acessoControlador.pessoa == null}"/>
 
                         <h:outputText value="Nome do Mensalista:" rendered="#{acessoControlador.pessoa != null}"/>
                         <h:outputText id="pessoaNome" value="#{acessoControlador.pessoa.nome}" rendered="#{acessoControlador.pessoa != null}"/>

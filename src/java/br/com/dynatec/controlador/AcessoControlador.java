@@ -187,7 +187,7 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
     }
     
     public boolean isRegistraSaida() {
-        return this.getSelectedObject().getId() != null && this.getSelectedObject().getRegistroSaida() == null;
+        return this.getSelectedObject().getId() != null && this.getSelectedObject().getRegistroSaida() == null && this.getSelectedObject().getValorAReceber() > 0;
     }
 
     public void setRegistraSaida(boolean registraSaida) {
@@ -195,7 +195,7 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
     }
 
     public boolean isRegistraPeriodoAdicional() {
-        return this.getSelectedObject().getId() != null && this.getSelectedObject().getRegistroSaida() != null;
+        return this.getSelectedObject().getId() != null && this.getSelectedObject().getRegistroSaida() != null && this.getSelectedObject().getValorAReceber() > 0;
     }
 
     public void setRegistraPeriodoAdicional(boolean registraPeriodoAdicional) {
