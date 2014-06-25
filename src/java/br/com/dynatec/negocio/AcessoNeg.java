@@ -59,7 +59,10 @@ public class AcessoNeg {
     
     public Acesso consultarECalcular(Acesso e) throws Exception {        
         Acesso acesso;
-        acesso = acessoDao.find_by_numero_cartao(e.getCartao());
+        String cartao;
+        cartao = e.getCartao().length() > 11 ? e.getCartao().substring(0, 11) : e.getCartao();
+        acesso = acessoDao.find_by_numero_cartao(cartao);
+        
         acesso.setUltimoValorPago(acesso.getValorAReceber()+acesso.getUltimoValorPago());
         acesso.setUltimoDescontoDado(acesso.getDescontoAtual()+acesso.getUltimoDescontoDado());
         acesso.setDescontoAtual(0.0d);
@@ -92,31 +95,40 @@ public class AcessoNeg {
         permancencia = (int) UtilDateTime.diferencaEmMinutos(acesso.getEntrada(), acesso.getRegistroSaida());
         Double valor = 0d;
         minAcumulados = 0;
-
-        boolean intervalor_menor_que_maximo_regra = false;
-        for (Regra regra : regras) {
-            ultimo_intervalo = (regra.getIntervaloHora() * 60) + regra.getIntervaloMinuto();
-            minAcumulados += ultimo_intervalo;
-
-            valor_ultimo_periodo_regra = regra.getValor();
-            valor += valor_ultimo_periodo_regra;
-            if (permancencia <= minAcumulados) {
-                intervalor_menor_que_maximo_regra = true;
-                break;
-            }
-        }
-
-        if (!intervalor_menor_que_maximo_regra) {
-            while (permancencia >= minAcumulados) {
-                valor += valor_ultimo_periodo_regra;
+        
+        Configuracao conf = this.configuracaoNeg.findByDescricao("Padrão");
+     
+        if (permancencia <= conf.getToleranciaMinimaSemPagar()) {
+            minAcumulados = conf.getToleranciaMinimaSemPagar();
+        } else {
+            boolean intervalor_menor_que_maximo_regra = false;
+            for (Regra regra : regras) {
+                ultimo_intervalo = (regra.getIntervaloHora() * 60) + regra.getIntervaloMinuto();
                 minAcumulados += ultimo_intervalo;
+
+                valor_ultimo_periodo_regra = regra.getValor();
+                valor += valor_ultimo_periodo_regra;
+                if (permancencia <= minAcumulados) {
+                    intervalor_menor_que_maximo_regra = true;
+                    break;
+                }
+            }
+
+            if (!intervalor_menor_que_maximo_regra) {
+                while (permancencia >= minAcumulados) {
+                    valor += valor_ultimo_periodo_regra;
+                    minAcumulados += ultimo_intervalo;
+                }
             }
         }
 
         Date limiteParaSair = somaHora(acesso.getEntrada(), minAcumulados);
-        
-        Configuracao conf = this.configuracaoNeg.findByDescricao("Padrão");
-        limiteParaSair = somaHora(limiteParaSair, conf.getTolerancia());
+               
+        //Somente se o veiculo ficou mais do que o tempo minimo é que deve-se
+        //adicionar a tolerancia após pagamento.
+        if (permancencia > conf.getToleranciaMinimaSemPagar()) {
+          limiteParaSair = somaHora(limiteParaSair, conf.getTolerancia());
+        }
 
         acesso.setValorCobrado(valor);
         acesso.setLimiteParaSair(limiteParaSair);

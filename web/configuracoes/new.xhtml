@@ -33,6 +33,10 @@
                     
                     <h:outputText value="Tolerância pagamento mensalista:"/>
                     <p:spinner id="toleranciaPagamento"  value="#{configuracaoControlador.selectedObject.toleranciaMensalista}" min="0" max="30" size="5" />
+                    
+                    <h:outputText value="Tolerância permanência sem custo:"/>
+                    <p:spinner id="toleranciaMinimaSemPagar"  value="#{configuracaoControlador.selectedObject.toleranciaMinimaSemPagar}" min="0" max="30" size="5" />
+                    
                 </h:panelGrid>
             </f:validateBean>
         </h:form>

@@ -38,13 +38,17 @@ public class Configuracao implements Serializable {
     @Column(nullable = false)
     private String descricao;
 
-    @NotNull(message = "A tolerância deve ser informada.")
+    @NotNull(message = "A tolerância de permanência após pagamento deve ser informada.")
     @Column(nullable = false)
     private Integer tolerancia;
 
     @NotNull(message = "A tolerância em dias para pagamento do mensalista deve ser informada.")
     @Column(nullable = false)
     private Integer toleranciaMensalista;
+
+    @NotNull(message = "A tolerância de permanência após entrada deve ser informada.")
+    @Column(nullable = false, name = "tolerancia_minima_sem_pagamento")
+    private Integer toleranciaMinimaSemPagar;
 
     public Integer getId() {
         return id;
@@ -76,6 +80,14 @@ public class Configuracao implements Serializable {
 
     public void setToleranciaMensalista(Integer toleranciaMensalista) {
         this.toleranciaMensalista = toleranciaMensalista;
+    }
+
+    public Integer getToleranciaMinimaSemPagar() {
+        return toleranciaMinimaSemPagar;
+    }
+
+    public void setToleranciaMinimaSemPagar(Integer toleranciaMinimaSemPagar) {
+        this.toleranciaMinimaSemPagar = toleranciaMinimaSemPagar;
     }
 
     @Override

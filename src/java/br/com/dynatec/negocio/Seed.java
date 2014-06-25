@@ -116,6 +116,7 @@ public class Seed implements Serializable {
                 conf.setDescricao("Padrão");
                 conf.setTolerancia(10);
                 conf.setToleranciaMensalista(5);
+                conf.setToleranciaMinimaSemPagar(20);
                 configuracaoNeg.salvar(conf);
             }
             
