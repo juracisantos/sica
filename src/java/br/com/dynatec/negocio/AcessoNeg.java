@@ -4,6 +4,7 @@ import br.com.dynatec.entidade.Acesso;
 import br.com.dynatec.entidade.Configuracao;
 import br.com.dynatec.entidade.Pessoa;
 import br.com.dynatec.entidade.Regra;
+import br.com.dynatec.entidade.Tabela;
 import br.com.dynatec.persistencia.AcessoDao;
 import br.jus.tjgo.bnmp.util.UtilDateTime;
 import java.util.Date;
@@ -14,11 +15,13 @@ public class AcessoNeg {
     private final AcessoDao acessoDao;
     private final PessoaNeg pessoaNeg;
     private final ConfiguracaoNeg configuracaoNeg;
+    private final TabelaNeg tabelaNeg;
 
     public AcessoNeg() {
         this.acessoDao = new AcessoDao();
         this.pessoaNeg = new PessoaNeg();
         this.configuracaoNeg = new ConfiguracaoNeg();
+        this.tabelaNeg = new TabelaNeg();
     }
 
     public Acesso find_by_numero_cartao(String cartao) {
@@ -57,18 +60,20 @@ public class AcessoNeg {
         return this.pessoaNeg.findByCartao(cartao);
     }
     
-    public Acesso consultarECalcular(Acesso e) throws Exception {        
-        Acesso acesso;
-        String cartao;
-        cartao = e.getCartao().length() > 11 ? e.getCartao().substring(0, 11) : e.getCartao();
-        acesso = acessoDao.find_by_numero_cartao(cartao);
+    public Acesso consultarECalcular(String cartao, Integer codTabela, Double valorRecebido, Double descontoAtual) throws Exception {        
+        Acesso acesso;        
+        cartao = cartao.length() > 11 ? cartao.substring(0, 11) : cartao;
+        acesso = acessoDao.find_by_numero_cartao(cartao);                
         
+        acesso.setValorRecebido(valorRecebido);
+        acesso.setDescontoAtual(descontoAtual);
         acesso.setUltimoValorPago(acesso.getValorAReceber()+acesso.getUltimoValorPago());
         acesso.setUltimoDescontoDado(acesso.getDescontoAtual()+acesso.getUltimoDescontoDado());
         acesso.setDescontoAtual(0.0d);
         
         if (acesso != null) {
-            acesso.setTabela(e.getTabela());
+            Tabela tabela = tabelaNeg.find(codTabela);
+            acesso.setTabela(tabela);
             acesso.setRegistroSaida(new Date());
             //acesso.setUltimoValorPago(acesso.getValorCobrado() - acesso.getDesconto());
             

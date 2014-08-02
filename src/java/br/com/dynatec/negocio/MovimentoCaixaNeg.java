@@ -83,7 +83,7 @@ public class MovimentoCaixaNeg {
         movimentos.remove(0);
 
         for (MovimentoCaixa mc : movimentos) {
-            extrato.getMovimentos().add(new Movimento(mc.getTipoMovimento(), mc.getValor()));
+            extrato.getMovimentos().add(new Movimento(mc.getTipoMovimento().getDescricao(), mc.getValor()));
 
             if (mc.getTipoMovimento().equals(TipoMovimento.DEPOSITO)) {
                 saldoAtual += mc.getValor();

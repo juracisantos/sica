@@ -5,8 +5,10 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.NotEmpty;
 
+@XmlRootElement
 @Entity
 @Table(name = "telefone_email")
 public class TelefoneEmail implements Serializable {

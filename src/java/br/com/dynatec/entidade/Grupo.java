@@ -19,11 +19,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
 @Entity
 @Table(name = "grupos")
 public class Grupo implements Serializable {
@@ -41,6 +44,7 @@ public class Grupo implements Serializable {
     @Size(min = 1, max = 150)
     protected String nome;
     
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "grupo")
     private Collection<Usuario> usuarios;
 

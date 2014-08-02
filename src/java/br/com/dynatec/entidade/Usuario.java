@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -15,6 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author juraci
  */
+@XmlRootElement
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {

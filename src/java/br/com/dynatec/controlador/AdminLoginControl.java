@@ -62,8 +62,14 @@ public class AdminLoginControl extends BaseControlador<Usuario> implements Seria
         }
     }
 
+    public String sair() {
+       HttpSession session = UtilFaces.getSession();
+       session.invalidate();
+       return "/login.jsf";
+    }
+
     public String doFinishCreateUsuarioPrimeiroAcesso() {
-        try {            
+        try {
             usuario.setPessoa(this.pessoa);
             this.pessoa.setCreatedAt(new Date());
             this.pessoa.setUpdatedAt(new Date());

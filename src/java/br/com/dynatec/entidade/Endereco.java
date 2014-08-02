@@ -8,11 +8,14 @@ import br.com.dynantec.type.Estado;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author juraci
  */
+@XmlRootElement
 @Entity
 @Table(name = "enderecos")
 public class Endereco implements Serializable {
@@ -38,6 +41,8 @@ public class Endereco implements Serializable {
     private String municipio;
     @Column(name = "setor")
     private String setor;
+    
+    @XmlTransient
     @OneToMany(mappedBy = "endereco")
     private Collection<Pessoa> pessoas;
 

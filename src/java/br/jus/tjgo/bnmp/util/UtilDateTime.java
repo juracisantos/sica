@@ -22,7 +22,6 @@ public class UtilDateTime {
         } else {
             return null;
         }
-
     }
 
     public static String dateTimeToString(Date data) {
@@ -56,10 +55,10 @@ public class UtilDateTime {
         return result;
     }
 
-    public static double diferencaEmMinutos(Date dataInicial, Date dataFinal) {
+    public static Integer diferencaEmMinutos(Date dataInicial, Date dataFinal) {
         long diferenca = dataFinal.getTime() - dataInicial.getTime();
         double diferencaEmMinutos = (diferenca / 1000) / 60; //resultado é diferença entre as datas em minutos              
-        return diferencaEmMinutos;
+        return (int) diferencaEmMinutos;
     }
 
     public static String minToHora(Integer minutos) {

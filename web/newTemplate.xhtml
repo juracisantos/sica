@@ -25,7 +25,15 @@
 
         <p:layout fullPage="true" >                
             <p:layoutUnit  position="north" size="60" resizable="false" closable="false" collapsible="false">
-                <h:outputLabel styleClass="tituloApp" value="SICA - Nome do Programa"/>
+                <table width="100%" border="0">
+                    <tr>
+                        <td width="200px;"></td>
+                        <td><h:outputLabel styleClass="tituloApp" value="SICA - Nome do Programa"/></td>
+                        <td width="300px">                           
+                        </td>
+                    </tr>
+                </table>
+
             </p:layoutUnit>
 
             <p:layoutUnit position="west" size="210" header="&nbsp;" resizable="true" closable="false" 
@@ -42,12 +50,12 @@
                             </p:submenu>
                         </c:if>
                         <p:submenu label="Caixa">
-                            <p:menuitem value="Acessos" action="#{acessoControlador.novo()}" ajax="false"/>
                             <p:menuitem value="Movimento de caixa" action="#{movimentoCaixaControlador.listar}" ajax="false"/> 
                         </p:submenu>
-                        <p:submenu label="Relatório">                            
-
-                        </p:submenu>
+                        
+                        <p:submenu label="Opções">                            
+                            <p:menuitem value="Sair" action="#{adminLoginControl.sair}" ajax="false" />
+                        </p:submenu>                        
                     </p:menu>
                 </h:form>
             </p:layoutUnit>

@@ -1,9 +1,15 @@
 package br.com.dynatec.helper;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public abstract class RetornoHelper {
 
+    public static final String STATUS_OK = "ok";
+    public static final String STATUS_ERRO = "erro";    
+    
     private String status;
-    private String mensagem;
+    private String mensagem;    
 
     public String getMensagem() {
         return mensagem;

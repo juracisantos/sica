@@ -20,11 +20,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
 @Entity
 @Table(name = "veiculos_log_status_presenca")
 public class VeiculoLogStatusPreseca implements Serializable {

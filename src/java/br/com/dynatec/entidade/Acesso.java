@@ -23,12 +23,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
 @Entity
 @Table(name = "acessos")
 public class Acesso implements Serializable {
@@ -84,7 +86,7 @@ public class Acesso implements Serializable {
 
     @Transient
     private Double descontoAcumulado;
-    
+
     @Transient
     private Double totalPago;
 
@@ -96,6 +98,9 @@ public class Acesso implements Serializable {
 
     @Transient
     private String permancencia;
+
+    @Transient
+    private Integer minutosParaSair;
 
     @Column
     private String placaVeiculo;
@@ -313,7 +318,15 @@ public class Acesso implements Serializable {
 
     public void setTotalPago(Double totalPago) {
         this.totalPago = totalPago;
-    }    
+    }
+
+    public Integer getMinutosParaSair() {
+        return UtilDateTime.diferencaEmMinutos(new Date(), this.getLimiteParaSair());
+    }
+
+    public void setMinutosParaSair(Integer minutosParaSair) {
+        this.minutosParaSair = minutosParaSair;
+    }
 
     @Override
     public int hashCode() {

@@ -32,7 +32,7 @@ public class UsuarioControlador extends BaseControlador<Usuario> implements Seri
     public String listar() {
         this.usuarios = this.negocio.findAll();
         return "/usuario/list.jsf";
-    }
+    }   
 
     public String novo() {
         this.setSelectedObject(new Usuario());

@@ -15,12 +15,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
 @Entity
 @Table(name = "configuracoes")
 public class Configuracao implements Serializable {

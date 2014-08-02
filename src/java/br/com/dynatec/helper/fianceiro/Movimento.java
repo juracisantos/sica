@@ -5,27 +5,31 @@
  */
 package br.com.dynatec.helper.fianceiro;
 
-import br.com.dynantec.type.TipoMovimento;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
+//@XmlType(name = "movimentos", namespace = "br.com.dynatec.helper.fianceiro.Movimento")
 public class Movimento {
 
-    private TipoMovimento tipoMovimento;
+    private String tipoMovimento;
     private Double valor;
 
-    public Movimento(TipoMovimento tipoMovimento, Double valor) {
+    public Movimento() {}
+    
+    public Movimento(String tipoMovimento, Double valor) {
         this.tipoMovimento = tipoMovimento;
         this.valor = valor;
     }
     
-    public TipoMovimento getTipoMovimento() {
+    public String getTipoMovimento() {
         return tipoMovimento;
     }
 
-    public void setTipoMovimento(TipoMovimento tipoMovimento) {
+    public void setTipoMovimento(String tipoMovimento) {
         this.tipoMovimento = tipoMovimento;
     }
 

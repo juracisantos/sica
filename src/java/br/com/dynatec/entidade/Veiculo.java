@@ -28,12 +28,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
 @Entity
 @Table(name = "veiculos")
 public class Veiculo implements Serializable {

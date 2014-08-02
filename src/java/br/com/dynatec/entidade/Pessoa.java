@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -18,6 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  * @author juraci
  */
+@XmlRootElement
 @Entity
 @Table(name = "pessoas")
 public class Pessoa implements Serializable {
@@ -65,9 +68,13 @@ public class Pessoa implements Serializable {
     @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     private Endereco endereco;
 
+    
+    @XmlTransient
     @OneToMany(mappedBy = "pessoa", targetEntity = Veiculo.class, cascade = CascadeType.ALL)
     private final List<Veiculo> veiculos = new LinkedList<>();
 
+    
+    @XmlTransient
     @OneToMany(mappedBy = "pessoa", targetEntity = TelefoneEmail.class, cascade = CascadeType.ALL)
     private final List<TelefoneEmail> telefones = new LinkedList<>();
 

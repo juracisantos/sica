@@ -21,12 +21,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
 @Entity
 @Table(name = "tabelas")
 public class Tabela implements Serializable {
@@ -46,7 +49,7 @@ public class Tabela implements Serializable {
 
     @Column()
     private Double valor;
-
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tabela")
     private List<Regra> regras = new LinkedList<>();
 
@@ -72,6 +75,7 @@ public class Tabela implements Serializable {
         this.valor = valor;
     }
 
+    @XmlTransient
     public List<Regra> getRegras() {
         Collections.sort(regras, new RegrasComparator());
         return regras;

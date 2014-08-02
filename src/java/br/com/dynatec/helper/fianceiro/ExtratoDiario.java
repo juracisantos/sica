@@ -5,15 +5,21 @@
  */
 package br.com.dynatec.helper.fianceiro;
 
+import br.com.dynatec.helper.RetornoHelper;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author jura
  */
-public class ExtratoDiario {
+@XmlRootElement
+@XmlType(name = "extrado", namespace = "br.com.dynatec.helper.fianceiro.ExtratoDiario")
+public class ExtratoDiario extends RetornoHelper {
 
     private Date dia;
     private Double saldoInicial;
@@ -55,5 +61,4 @@ public class ExtratoDiario {
     public void setSaldoAtual(Double saldoAtual) {
         this.saldoAtual = saldoAtual;
     }
-
 }

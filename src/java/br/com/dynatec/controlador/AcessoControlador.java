@@ -59,14 +59,14 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
 
     public String novo() {
         this.dataTrandacaoFinanceira = new Date();
-        this.addNovoAcesso();
+//        this.addNovoAcesso();
 
         return "/acessos/add.jsf";
     }
 
     public void imprimir(ActionEvent actionevent) {
         this.dataTrandacaoFinanceira = new Date();
-        this.addNovoAcesso();
+//        this.addNovoAcesso();
         System.out.println("Impresso....");
     }
     
@@ -111,7 +111,7 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
         try {
             //Verificar se é mensalista
             negocio = new AcessoNeg();
-            pessoa = this.negocio.findPessoaByCartao(getSelectedObject().getCartao());
+//            pessoa = this.negocio.findPessoaByCartao(getSelectedObject().getCartao());
             if (pessoa != null) {
                 this.movimentoCaixa = new MovimentoCaixa();
                 this.movimentoCaixa.setDataMovimento(dataTrandacaoFinanceira);
@@ -129,11 +129,11 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
                 this.pessoa.getVeiculos().get(0).setLiberado_ate(liberadoAte);
                 this.pessoa.getVeiculos().get(0).setDataVencimento(vencimento);
             } else {
-                setSelectedObject(this.negocio.consultarECalcular(getSelectedObject()));
-                if (getSelectedObject() == null) {
-                    this.addNovoAcesso();
-                    UtilFaces.addErrorMessage("Cartão não encontrado.");
-                }
+//                setSelectedObject(this.negocio.consultarECalcular(getSelectedObject()));
+//                if (getSelectedObject() == null) {
+//                    this.addNovoAcesso();
+//                    UtilFaces.addErrorMessage("Cartão não encontrado.");
+//                }
             }
             return null;
         } catch (Exception ex) {
@@ -179,12 +179,7 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
         this.extratoDia = extratoDia;
     }
 
-    private void addNovoAcesso() {
-        Acesso acesso = new Acesso();
-        acesso.setDataTransacaoFinaceira(this.dataTrandacaoFinanceira);
-        acesso.setTabela(this.tabelaSelecionada);
-        this.setSelectedObject(acesso);
-    }
+    
     
     public boolean isRegistraSaida() {
         return this.getSelectedObject().getId() != null && this.getSelectedObject().getRegistroSaida() == null && this.getSelectedObject().getValorAReceber() > 0;

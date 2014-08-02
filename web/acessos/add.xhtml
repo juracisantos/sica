@@ -43,7 +43,7 @@
                         <h:outputText value="Placa do veículo" rendered="#{acessoControlador.pessoa == null}"/>
                         <p:inputText value="#{acessoControlador.selectedObject.placaVeiculo}" size="30" rendered="#{acessoControlador.pessoa == null}"/>
 
-                        <h:outputText value="Nome do Mensalista:" rendered="#{acessoControlador.pessoa != null}"/>
+<!--                        <h:outputText value="Nome do Mensalista:" rendered="#{acessoControlador.pessoa != null}"/>
                         <h:outputText id="pessoaNome" value="#{acessoControlador.pessoa.nome}" rendered="#{acessoControlador.pessoa != null}"/>
 
                         <h:outputText value="CPF:" rendered="#{acessoControlador.pessoa != null}"/>
@@ -76,7 +76,7 @@
                         <h:outputText value="Data da operação" styleClass="txtLabel" rendered="#{acessoControlador.pessoa != null}"/>
                         <h:outputText value="#{acessoControlador.movimentoCaixa.createdAt}" styleClass="labelBold" rendered="#{acessoControlador.pessoa != null}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR"/>
-                        </h:outputText>
+                        </h:outputText>-->
 
                         <p:defaultCommand target="btnConsultar" />
                         <h:panelGrid columns="3">                                                               

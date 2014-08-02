@@ -23,11 +23,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author jura
  */
+@XmlRootElement
 @Entity
 @Table(name = "moveimentos_caixa")
 public class MovimentoCaixa implements Serializable {
@@ -50,7 +52,7 @@ public class MovimentoCaixa implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    protected TipoMovimento tipoMovimento;
+    private TipoMovimento tipoMovimento;
 
     @Column
     @NotNull(message = "O valor deve ser informado.")
@@ -80,6 +82,9 @@ public class MovimentoCaixa implements Serializable {
 
     @Column(name = "usuario_id")
     private Integer usuario_id;
+
+    @Column(name = "mensalista_id")
+    private Integer mensalista_id;
 
     @Transient
     private String nomePessoa;
@@ -201,7 +206,11 @@ public class MovimentoCaixa implements Serializable {
     }
 
     public Double getTroco() {
-        return this.getValorRecebido() - this.getValorAReceber();
+        if (this.getValorRecebido() != 0) {
+            return this.getValorRecebido() - this.getValorAReceber();
+        } else {
+            return 0.0d;
+        }
     }
 
     public void setTroco(Double troco) {
@@ -214,6 +223,14 @@ public class MovimentoCaixa implements Serializable {
 
     public void setValorAReceber(Double valorAReceber) {
         this.valorAReceber = valorAReceber;
+    }
+
+    public Integer getMensalista_id() {
+        return mensalista_id;
+    }
+
+    public void setMensalista_id(Integer mensalista_id) {
+        this.mensalista_id = mensalista_id;
     }
 
     @Override
