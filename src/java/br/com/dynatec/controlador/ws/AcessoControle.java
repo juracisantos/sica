@@ -136,6 +136,7 @@ public class AcessoControle {
                 acesso = this.negocio.consultarECalcular(cartao, codTabela, valorRecebido, desconto);                                
                 if (persiste) {
                     acesso.setPlacaVeiculo(placaCarro);
+                    acesso.setDataTransacaoFinaceira(dataTransacao);
                     this.negocio.salvar(acesso);
                     System.out.println("Persistido..:" + acesso.getId());
                 }

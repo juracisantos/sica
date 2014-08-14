@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,7 +51,8 @@ public class Tabela implements Serializable {
     @Column()
     private Double valor;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tabela")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tabela", orphanRemoval = true)
+    @OrderBy("sequencia")    
     private List<Regra> regras = new LinkedList<>();
 
     public void addRegra(Regra e) {
@@ -76,8 +78,7 @@ public class Tabela implements Serializable {
     }
 
     @XmlTransient
-    public List<Regra> getRegras() {
-        Collections.sort(regras, new RegrasComparator());
+    public List<Regra> getRegras() {        
         return regras;
     }
 
@@ -119,6 +120,8 @@ public class Tabela implements Serializable {
     public String toString() {
         return nome;
     }
+    
+    
 
     
 }

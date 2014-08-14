@@ -129,11 +129,9 @@ public class AcessoNeg {
 
         Date limiteParaSair = somaHora(acesso.getEntrada(), minAcumulados);
                
-        //Somente se o veiculo ficou mais do que o tempo minimo é que deve-se
-        //adicionar a tolerancia após pagamento.
-        if (permancencia > conf.getToleranciaMinimaSemPagar()) {
+//        if (permancencia > conf.getToleranciaMinimaSemPagar()) {
           limiteParaSair = somaHora(limiteParaSair, conf.getTolerancia());
-        }
+//        }
 
         acesso.setValorCobrado(valor);
         acesso.setLimiteParaSair(limiteParaSair);

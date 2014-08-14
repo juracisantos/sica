@@ -46,7 +46,7 @@ public class Acesso implements Serializable {
 
     @NotNull(message = "O campo Cartão deve ser preechido.")
     @NotEmpty(message = "O campo Cartão deve ser preechido.")
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cartao;
 
     @Column

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./../../newTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="css" name="default.css" />        
+        <h:form id="frmRelatorioMensalista" prependId="false">
+            <h:messages/>
+            <h2>Pagamentos Mensalista</h2>
+
+            <p:panel id="pnlRelatorio">
+                <p:panelGrid columns="2">
+                    <h3>Informar o período das transações</h3>
+                </p:panelGrid>
+                <p:panelGrid columns="2">
+                    <h:outputText value="Inicio"/>
+                    <p:inputMask value="#{relatoriosSistemaControlador.inicio}" mask="99/99/9999" size="50" id="txtInicio">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+                    
+                    <h:outputText value="Término"/>
+                    <p:inputMask value="#{relatoriosSistemaControlador.termino}" mask="99/99/9999" size="50" id="txtTermino">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+                </p:panelGrid>
+                                             
+                <p:commandButton action="#{relatoriosSistemaControlador.consultar}" immediate="false"
+                                 ajax="false" value="Consultar">
+                </p:commandButton>
+                <p/>
+            </p:panel>      
+
+        </h:form>
+    </ui:define>
+</ui:composition>
