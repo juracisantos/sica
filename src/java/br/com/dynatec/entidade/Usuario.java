@@ -6,6 +6,8 @@ package br.com.dynatec.entidade;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,7 +36,7 @@ public class Usuario implements Serializable {
     @Length(min = 3, max = 250, message = "O nome deve ter mais de 3 (três) digitos.")
     @Column(nullable = false, unique = true)
     private String nome;
-    
+
     @NotNull(message = "A senha não pode ser vazia.")
     @NotEmpty(message = "A senha não pode ser vazia.")
     @Length(min = 6, max = 20, message = "A senha deve ter mais 6 (seis) digitos.")
@@ -63,6 +65,9 @@ public class Usuario implements Serializable {
     @JoinColumn(referencedColumnName = "id", name = "grupo_id")
     @ManyToOne(optional = false)
     private Grupo grupo;
+
+    @OneToMany(mappedBy = "usuario", targetEntity = MovimentoCaixa.class, cascade = CascadeType.ALL)
+    private final List<MovimentoCaixa> movimentoCaixa = new LinkedList<>();
 
     public Usuario() {
     }
@@ -152,6 +157,10 @@ public class Usuario implements Serializable {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public List<MovimentoCaixa> getMovimentoCaixa() {
+        return movimentoCaixa;
     }
 
     @Override

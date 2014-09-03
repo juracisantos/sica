@@ -17,7 +17,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,7 +67,7 @@ public class MovimentoCaixa implements Serializable {
     @Column(name = "ativo")
     private Boolean ativo;
 
-    @Column
+    @Column()    
     private Boolean mensalisa;
 
     @Column
@@ -80,11 +82,13 @@ public class MovimentoCaixa implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    @Column(name = "usuario_id")
-    private Integer usuario_id;
+    @JoinColumn(referencedColumnName = "id", name = "usuario_id")
+    @ManyToOne(optional = false)
+    private Usuario usuario;
 
-    @Column(name = "mensalista_id")
-    private Integer mensalista_id;
+    @JoinColumn(referencedColumnName = "id", name = "mensalista_id")
+    @ManyToOne(optional = true)
+    private Pessoa pessoaMensalista;
 
     @Transient
     private String nomePessoa;
@@ -149,12 +153,12 @@ public class MovimentoCaixa implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getUsuario_id() {
-        return usuario_id;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuario_id(Integer usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Date getDataMovimento() {
@@ -225,12 +229,12 @@ public class MovimentoCaixa implements Serializable {
         this.valorAReceber = valorAReceber;
     }
 
-    public Integer getMensalista_id() {
-        return mensalista_id;
+    public Pessoa getPessoaMensalista() {
+        return pessoaMensalista;
     }
 
-    public void setMensalista_id(Integer mensalista_id) {
-        this.mensalista_id = mensalista_id;
+    public void setPessoaMensalista(Pessoa pessoaMensalista) {
+        this.pessoaMensalista = pessoaMensalista;
     }
 
     @Override

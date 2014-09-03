@@ -10,11 +10,13 @@ import br.com.dynatec.entidade.Configuracao;
 import br.com.dynatec.entidade.MovimentoCaixa;
 import br.com.dynatec.entidade.Pessoa;
 import br.com.dynatec.entidade.Tabela;
+import br.com.dynatec.entidade.Usuario;
 import br.com.dynatec.helper.fianceiro.ExtratoDiario;
 import br.com.dynatec.negocio.AcessoNeg;
 import br.com.dynatec.negocio.ConfiguracaoNeg;
 import br.com.dynatec.negocio.MovimentoCaixaNeg;
 import br.com.dynatec.negocio.TabelaNeg;
+import br.com.dynatec.negocio.UsuarioNeg;
 import br.jus.tjgo.bnmp.util.UtilDateTime;
 import br.jus.tjgo.bnmp.util.UtilFaces;
 import java.io.Serializable;
@@ -47,6 +49,7 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
     private Pessoa pessoa;
     private boolean registraSaida;
     private boolean registraPeriodoAdicional;
+    private final UsuarioNeg usuarioNeg = new UsuarioNeg();
 
     public AcessoControlador() {
         this.movimentoCaixaNeg = new MovimentoCaixaNeg();
@@ -113,11 +116,13 @@ public class AcessoControlador extends BaseControlador<Acesso> implements Serial
             negocio = new AcessoNeg();
 //            pessoa = this.negocio.findPessoaByCartao(getSelectedObject().getCartao());
             if (pessoa != null) {
+                Usuario usuario = usuarioNeg.findByID(Integer.valueOf(session.getAttribute("usuario_id").toString()));
+                
                 this.movimentoCaixa = new MovimentoCaixa();
                 this.movimentoCaixa.setDataMovimento(dataTrandacaoFinanceira);
                 this.movimentoCaixa.setNomePessoa(session.getAttribute("pessoa_nome").toString());
                 this.movimentoCaixa.setTipoMovimento(TipoMovimento.DEPOSITO);
-                this.movimentoCaixa.setUsuario_id(Integer.valueOf(session.getAttribute("usuario_id").toString()));
+                this.movimentoCaixa.setUsuario(usuario);
                 this.movimentoCaixa.setValor(pessoa.getVeiculos().get(0).getValorMensalidade());
                 this.movimentoCaixa.setMensalisa(Boolean.TRUE);
 

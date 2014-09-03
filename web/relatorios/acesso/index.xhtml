@@ -7,14 +7,14 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="content">
-        <h:outputStylesheet library="css" name="default.css" />        
-        <h:form id="frmRelatorioMensalista" prependId="false" target="_blank">
+        <h:outputStylesheet library="css" name="default.css" />
+        <h:form id="frmRelatorioAcesso" prependId="false" target="_blank">
             <h:messages/>
-            <h2>Pagamentos Mensalista</h2>
+            <h2>Acessos</h2>
 
             <p:panel id="pnlRelatorio">
                 <p:panelGrid columns="2">
-                    <h3>Informar o período das transações</h3>
+                    <h3>Informar o período dos acessos</h3>
                 </p:panelGrid>
                 <p:panelGrid columns="2">
                     <h:outputText value="Inicio"/>
@@ -28,12 +28,11 @@
                     </p:inputMask>
                 </p:panelGrid>
                                              
-                <p:commandButton action="#{relatoriosSistemaControlador.imprimir}" immediate="false"
+                <p:commandButton actionListener="#{relatoriosSistemaControlador.imprimirAcessos}" immediate="false"
                                  ajax="false" value="Imprimir">
                 </p:commandButton>
                 <p/>
-            </p:panel>      
-
+            </p:panel>
         </h:form>
     </ui:define>
 </ui:composition>

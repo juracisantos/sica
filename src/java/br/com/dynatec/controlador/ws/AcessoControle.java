@@ -42,6 +42,7 @@ public class AcessoControle {
     private AcessoNeg negocio;
     private ConfiguracaoNeg configuracaoNeg;
     private MovimentoCaixaNeg movimentoCaixaNeg;
+    private final UsuarioNeg usuarioNeg = new UsuarioNeg();
 
     /**
      * Operação de Web service
@@ -101,14 +102,16 @@ public class AcessoControle {
         MovimentoCaixa movimentoCaixa = new MovimentoCaixa();
 
         if (pessoa != null) {
+            Usuario usuario = usuarioNeg.findByID(usuario_id);
+            
             movimentoCaixa.setDataMovimento(dataTransacao);
             movimentoCaixa.setTipoMovimento(TipoMovimento.DEPOSITO);
             movimentoCaixa.setValor(pessoa.getVeiculos().get(0).getValorMensalidade());
             movimentoCaixa.setMensalisa(Boolean.TRUE);
             movimentoCaixa.setDesconto(desconto);
             movimentoCaixa.setValorRecebido(valorRecebido);
-            movimentoCaixa.setMensalista_id(pessoa.getId());
-            movimentoCaixa.setUsuario_id(usuario_id);
+            movimentoCaixa.setPessoaMensalista(pessoa);
+            movimentoCaixa.setUsuario(usuario);
 
             List<Configuracao> configuracoes = configuracaoNeg.findAll();
             Integer diasIncrementar = configuracoes == null ? 0 : configuracoes.get(0).getToleranciaMensalista();
@@ -258,11 +261,14 @@ public class AcessoControle {
             System.out.println("---------------------------------");
             System.out.println(movimentoCaixa);
 
+            UsuarioNeg usuarioNeg = new UsuarioNeg();
+            Usuario usuario = usuarioNeg.findByID(movimentoCaixa.getUsuario_id());
+            
             MovimentoCaixa mc = new MovimentoCaixa();
             mc.setTipoMovimento(movimentoCaixa.getTipoMovimento());
             mc.setObservacao(movimentoCaixa.getObservacao());
             mc.setValor(movimentoCaixa.getValor());
-            mc.setUsuario_id(movimentoCaixa.getUsuario_id());
+            mc.setUsuario(usuario);
 
             mc = movimentoCaixaNeg.salvar(mc);
 

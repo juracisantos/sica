@@ -36,6 +36,10 @@ public class UsuarioNeg {
     public Usuario findByUserName(String username) {
         return this.usuarioDao.findByUserName(username);
     }
+    
+    public Usuario findByID(Integer idUsuario) {
+        return this.usuarioDao.find(idUsuario);
+    }
 
     public Usuario criptografa(Usuario usuario) throws Exception {
         if ((!usuario.getSenha().equals(usuario.getConfSenha()))

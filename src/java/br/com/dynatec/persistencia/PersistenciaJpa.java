@@ -1,7 +1,6 @@
 package br.com.dynatec.persistencia;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.*;
@@ -51,8 +50,8 @@ public abstract class PersistenciaJpa implements Serializable {
      * @param values
      * @return
      */
-    protected List findAll(String query, Object... values) {
-        Query qr = createQuery(query, false, values);
+    protected List findAllWithNativeQuery(String query, Object... values) {
+        Query qr = createQuery(query, true, values);
         return qr.getResultList();
     }
     
@@ -115,7 +114,7 @@ public abstract class PersistenciaJpa implements Serializable {
         return qr;
     }
 
-    private EntityManager getEm() {
+    public EntityManager getEm() {
         return em;
     }
 

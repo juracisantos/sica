@@ -2,11 +2,15 @@ package br.jus.tjgo.bnmp.util;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 public class UtilFaces {
+
+    public static FacesContext facesContext = FacesContext.getCurrentInstance();                       
 
     public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
         int size = selectOne ? entities.size() + 1 : entities.size();
@@ -37,7 +41,11 @@ public class UtilFaces {
     }
 
     public static HttpSession getSession() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        return (HttpSession) facesContext.getExternalContext().getSession(false);
+        return (HttpSession) UtilFaces.facesContext.getExternalContext().getSession(false);
+    }
+
+    public static String getPathRelatorios() {   
+        return FacesContext.getCurrentInstance().getExternalContext().getRealPath("/relatorios/") + "/";
+        //return request.getRealPath("/relatorios/") + "/";
     }
 }

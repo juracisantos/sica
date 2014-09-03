@@ -24,4 +24,5 @@ public class RelatoriosSistemaNeg {
     public List<Map<String, Object>> mensalisataPorPeriodo(Date inicio, Date termino) {
         return relatoriosSistemaDAO.mensalisataPorPeriodo(inicio, termino);
     }
+     
 }

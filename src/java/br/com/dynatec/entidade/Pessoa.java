@@ -68,12 +68,13 @@ public class Pessoa implements Serializable {
     @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     private Endereco endereco;
 
-    
     @XmlTransient
     @OneToMany(mappedBy = "pessoa", targetEntity = Veiculo.class, cascade = CascadeType.ALL)
     private final List<Veiculo> veiculos = new LinkedList<>();
 
-    
+    @OneToMany(mappedBy = "pessoaMensalista", targetEntity = MovimentoCaixa.class, cascade = CascadeType.ALL)
+    private final List<MovimentoCaixa> movimentoCaixa = new LinkedList<>();
+
     @XmlTransient
     @OneToMany(mappedBy = "pessoa", targetEntity = TelefoneEmail.class, cascade = CascadeType.ALL)
     private final List<TelefoneEmail> telefones = new LinkedList<>();
@@ -188,12 +189,16 @@ public class Pessoa implements Serializable {
         this.endereco = endereco;
     }
 
-    public Integer getQtdVeiculos() {        
+    public Integer getQtdVeiculos() {
         return this.veiculos.size();
     }
 
     public void setQtdVeiculos(Integer qtdVeiculos) {
         this.qtdVeiculos = qtdVeiculos;
+    }
+
+    public List<MovimentoCaixa> getMovimentoCaixa() {
+        return movimentoCaixa;
     }
 
     @Override

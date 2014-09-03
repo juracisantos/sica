@@ -5,8 +5,10 @@
 package br.com.dynatec.controlador;
 
 import br.com.dynatec.entidade.MovimentoCaixa;
+import br.com.dynatec.entidade.Usuario;
 import br.com.dynatec.helper.fianceiro.ExtratoDiario;
 import br.com.dynatec.negocio.MovimentoCaixaNeg;
+import br.com.dynatec.negocio.UsuarioNeg;
 import br.jus.tjgo.bnmp.util.UtilDateTime;
 import br.jus.tjgo.bnmp.util.UtilFaces;
 import java.io.Serializable;
@@ -32,6 +34,7 @@ public class MovimentoCaixaControlador extends BaseControlador<MovimentoCaixa> i
     private final HttpSession session = UtilFaces.getSession();
     private ExtratoDiario extratoDia;
     private Date dataDia = new Date();
+    private final UsuarioNeg usuarioNeg = new UsuarioNeg();
 
     public MovimentoCaixaControlador() {
         setSelectedObject(new MovimentoCaixa());
@@ -45,8 +48,10 @@ public class MovimentoCaixaControlador extends BaseControlador<MovimentoCaixa> i
     }
 
     public String novo() {
+        Usuario usuario = usuarioNeg.findByID(Integer.valueOf(session.getAttribute("usuario_id").toString()));
+                
         this.setSelectedObject(new MovimentoCaixa());
-        this.getSelectedObject().setUsuario_id(Integer.valueOf(session.getAttribute("usuario_id").toString()));
+        this.getSelectedObject().setUsuario(usuario);
         this.getSelectedObject().setNomePessoa(session.getAttribute("pessoa_nome").toString());
         return "/movimentoscaixa/new.jsf";
     }

@@ -24,7 +24,7 @@
         <h:outputScript library="js" name="funcoes.js"/>
 
         <p:layout fullPage="true" >                
-            <p:layoutUnit  position="north" size="60" resizable="false" closable="false" collapsible="false">
+            <p:layoutUnit  position="north" size="70" resizable="false" closable="false" collapsible="false">
                 <table width="100%" border="0">
                     <tr>
                         <td width="200px;"></td>
@@ -36,10 +36,10 @@
 
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" size="210" header="&nbsp;" resizable="true" closable="false" 
+            <p:layoutUnit position="west" size="240" header="&nbsp;" resizable="true" closable="false" 
                           collapsible="true">         
                 <h:form>
-                    <p:menu style="width: 95%; height: 100%;">
+                    <p:menu style="width: 90%; height: 100%;">
                         <c:if test="${session.getValue('usuario_grupo') == 'Administrador'}">
                             <p:submenu label="Cadastros">  
                                 <p:menuitem value="Configurações" action="#{configuracaoControlador.listar}" ajax="false"/>
@@ -55,6 +55,8 @@
                         
                         <p:submenu label="Relatórios">
                             <p:menuitem value="Pagamento Mensalista" action="#{relatoriosSistemaControlador.index}" ajax="false"/> 
+                            <p:menuitem value="Acessos" action="#{relatoriosSistemaControlador.acessosIndex}" ajax="false"/> 
+                            <p:menuitem value="Fechamento" action="#{relatoriosSistemaControlador.acessoFechamento}" ajax="false"/> 
                         </p:submenu>
                         
                         <p:submenu label="Opções">                            
